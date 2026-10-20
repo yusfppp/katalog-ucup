@@ -106,4 +106,106 @@ Buat file proxy.js di root proyek (Next.js 16). Semua rute /admin kecuali /admin
 
 ## Debugging dan fitur bonus
 
-Tambahkan bagian baru untuk setiap error yang kamu perbaiki atau fitur bonus yang kamu kerjakan.
+### Redesign & Styling Alfa Bites (Brand Donat Mini Rumahan)
+
+**Prompt:**
+Saat ini website masih berbentuk template kasar. Tolong styling ulang seluruh website Alfa Bites (brand donat mini rumahan) agar terlihat hangat, ceria, modern, dan konsisten.
+
+ATURAN UTAMA
+1. Jangan ada text link. Semua elemen yang bisa diklik (navigasi, CTA, footer, sosial media, kartu produk) harus menggunakan komponen Button.
+2. Buat SATU komponen Button terpusat untuk semua jenis button. Dilarang membuat style button terpisah di halaman atau section lain.
+3. Buat komponen Input terpusat untuk semua jenis input.
+4. Gunakan color palette dan design tokens di bawah, jangan menulis warna hex langsung di komponen. Semua warna, radius, shadow, dan spacing harus lewat CSS variables atau token.
+
+COLOR PALETTE (design tokens)
+--color-primary: #C93868
+--color-primary-hover: #B02E5A
+--color-primary-active: #962650
+--color-primary-soft: #FDE3EA
+--color-secondary: #4A2C2A
+--color-accent: #F2A33A
+--color-bg: #FFF7EC
+--color-surface: #FFFFFF
+--color-border: #F0DCCB
+--color-text: #5C4440
+--color-text-muted: #8A716B
+--color-success: #3E9B6B
+--color-error: #D93F3F
+--color-info: #3F7FBF
+
+TIPOGRAFI
+- Heading: Fredoka (atau Baloo 2), weight 600 sampai 700, warna --color-secondary
+- Body: Nunito, weight 400 sampai 600, warna --color-text
+- Skala responsif: H1 40 sampai 56px, H2 32 sampai 40px, H3 24px, body 16px, caption 14px
+- Line height body 1.6, heading 1.2
+
+STYLE UMUM
+- Background halaman --color-bg, card dan section kontras memakai --color-surface
+- Radius: 12px untuk input dan card kecil, 20px untuk card besar, 999px (pill) untuk button dan badge
+- Shadow lembut dan hangat, contoh: 0 8px 24px rgba(74, 44, 42, 0.08)
+- Spacing konsisten berbasis kelipatan 8px, padding section vertikal 64 sampai 96px
+- Layout max-width 1200px, grid responsif (mobile first), breakpoint 640, 768, 1024, 1280
+- Transisi halus 150 sampai 250ms ease pada hover, focus, dan active
+- Gunakan elemen dekoratif ringan bertema donat (bentuk lingkaran, sprinkle, wave divider antar section), jangan berlebihan
+- Gambar produk dengan rasio konsisten, rounded, dan lazy loading
+
+KOMPONEN BUTTON (satu komponen, banyak varian)
+Props: variant, size, fullWidth, loading, disabled, leftIcon, rightIcon, iconOnly, href (jika ada href, render sebagai anchor tetapi tampilannya tetap button), onClick.
+
+Varian:
+- Primary: background --color-primary, teks putih, hover --color-primary-hover, active --color-primary-active, shadow lembut. Untuk aksi utama seperti "Pesan Sekarang".
+- Secondary: background --color-primary-soft, teks --color-primary, border 1.5px --color-primary, hover background --color-primary dengan teks putih. Untuk aksi pendukung seperti "Lihat Varian Rasa".
+- Tertiary: background transparan, tanpa border, teks --color-secondary, hover background --color-primary-soft. Untuk navigasi, menu, footer, dan aksi ringan. Pengganti text link, tampil sebagai button dengan area klik jelas.
+
+Ukuran: sm (tinggi 36px), md (44px, default), lg (52px). Padding horizontal proporsional, font weight 700.
+
+State wajib: default, hover, active (sedikit scale 0.98), focus-visible (ring 3px --color-accent dengan offset 2px), disabled (opacity 50%, cursor not-allowed), loading (spinner kecil, klik dinonaktifkan).
+
+Aksesibilitas: area sentuh minimal 44px di mobile, gunakan elemen semantik (button atau anchor), aria-label untuk iconOnly.
+
+KOMPONEN INPUT (satu komponen terpusat)
+Buat komponen Field yang membungkus label, input, helper text, dan pesan error, lalu sediakan tipe berikut:
+- Text, Email, Phone (tel), Password (dengan tombol show/hide), Number
+- Search (dengan ikon dan tombol clear)
+- Textarea (dengan counter karakter opsional)
+- Select dan Dropdown
+- Checkbox dan Radio (custom, warna --color-primary)
+- Switch/Toggle
+- Date dan Time picker
+- Quantity Stepper (tombol minus dan plus, untuk jumlah box donat)
+- File/Image upload (area drag and drop sederhana)
+
+Style input: background --color-surface, border 1.5px --color-border, radius 12px, tinggi 48px, padding 12 sampai 16px, placeholder --color-text-muted. Focus: border --color-primary dengan ring lembut --color-primary-soft. Error: border --color-error, pesan error kecil di bawah dengan ikon. Success: border --color-success. Disabled: background lebih pudar dan cursor not-allowed. Label selalu terlihat di atas input (jangan hanya placeholder), tandai field wajib dengan tanda bintang.
+
+PENERAPAN PER BAGIAN
+- Navbar: logo di kiri, menu memakai Button tertiary, CTA "Pesan Sekarang" memakai Button primary. Sticky dengan background blur ringan. Di mobile jadi menu hamburger.
+- Hero: headline besar, subheadline, dua button (primary dan secondary), gambar donat di sisi kanan.
+- Keunggulan: grid card dengan ikon, hover naik sedikit.
+- Varian rasa: card produk dengan gambar, nama, deskripsi, dan Button "Tambah" atau "Pesan".
+- Paket dan harga: card dengan paket paling populer diberi badge --color-accent.
+- Cara pemesanan: step bernomor dengan lingkaran --color-primary.
+- Testimoni: card dengan kutipan dan rating bintang --color-accent.
+- FAQ: accordion, header tiap item berupa button.
+- Form pemesanan: gunakan komponen Input dan Button yang sudah dibuat.
+- CTA penutup: background --color-primary, teks putih, button versi kontras (putih dengan teks --color-primary).
+- Footer: background --color-secondary, teks krem, semua tautan memakai Button tertiary versi terang.
+
+OUTPUT YANG DIHARAPKAN
+1. File design tokens (CSS variables)
+2. Komponen Button terpusat
+3. Komponen Input atau Field terpusat dengan semua tipe di atas
+4. Styling seluruh halaman yang memakai komponen tersebut
+5. Pastikan responsif, kontras warna lolos WCAG AA, dan tidak ada style duplikat atau warna hardcode
+
+**Hasil:**
+- Membuat file design tokens lengkap di `app/globals.css` (`@theme` dan `:root`) dengan warna donat hangat (`--color-primary`, `--color-secondary`, `--color-accent`, dll), tipografi Fredoka & Nunito via Google Fonts, radius (12px, 20px, 999px pill), serta shadow lembut.
+- Membangun satu komponen `Button.jsx` terpusat dengan varian `primary`, `secondary`, `tertiary`, `contrast`, `danger`, `tertiary-light`, ukuran `sm`, `md`, `lg`, serta mendukung rendering semantik `<button>` atau `<a>`/`<Link>` dengan touch target minimal 44px di mobile.
+- Membangun satu komponen `Input.jsx` terpusat yang mendukung semua jenis input: text, email, tel, password (dengan toggle show/hide), search (dengan clear button), textarea (dengan counter), select/dropdown, checkbox, radio, switch, date/time, quantity stepper, dan file drag & drop.
+- Menghapus semua plain text link di seluruh website dan menggantikannya dengan komponen `Button` terpusat.
+- Menata ulang komponen `Header.jsx` (sticky dengan blur & mobile hamburger), `Footer.jsx` (warna cokelat sekunder donat dan tombol tertiary-light), `KartuProduk.jsx` (card donat bulat lembut dengan lazy loading), `TombolWhatsApp.jsx`, `TabelProduk.jsx`, `FormProduk.jsx`, serta halaman not-found.
+- Mengimplementasikan seluruh section beranda pada `app/page.jsx`: Hero, Keunggulan, Varian Donat dari Supabase (US-01), Paket Box Donat & Harga, Cara Pemesanan, Testimoni, Form Pemesanan WhatsApp Interaktif (`FormPemesanan.jsx`), Accordion FAQ (`FaqSection.jsx`), dan CTA penutup.
+- Memperbarui halaman detail (`app/produk/[id]/page.jsx`) dan halaman admin (`/admin`, `/admin/login`, `/admin/password`) agar serasi dengan styling hangat donat mini.
+- Memperbarui dokumentasi desain pada `DESIGN.md`.
+
+**Perbaikan:**
+- Tidak ada perbaikan / kendala: seluruh komponen dan halaman terkompilasi dengan sempurna pada Turbopack Next.js 16 tanpa error atau warna hardcode.

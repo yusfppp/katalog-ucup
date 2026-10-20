@@ -1,25 +1,28 @@
-import Link from "next/link";
+import Button from "./Button";
 
-const gaya = {
-  utama: "bg-utama text-white hover:bg-utama-gelap",
-  garis: "border border-garis bg-latar text-teks hover:border-utama hover:text-utama",
-  bahaya: "border border-garis bg-latar text-bahaya hover:border-bahaya",
-};
+/**
+ * Komponen Tombol (Wrapper kompatibilitas ke Button terpusat)
+ * Memastikan semua file yang mengimpor Tombol memakai implementasi Button yang sama.
+ */
+export default function Tombol({
+  varian = "utama",
+  variant,
+  children,
+  ...props
+}) {
+  const varianMapping = {
+    utama: "primary",
+    garis: "secondary",
+    bahaya: "danger",
+    tertiary: "tertiary",
+    contrast: "contrast",
+  };
 
-export default function Tombol({ href, varian = "utama", className = "", children, ...props }) {
-  const kelas = `inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors ${gaya[varian]} ${className}`;
-
-  if (href) {
-    return (
-      <Link href={href} className={kelas}>
-        {children}
-      </Link>
-    );
-  }
+  const finalVariant = variant || varianMapping[varian] || "primary";
 
   return (
-    <button className={kelas} {...props}>
+    <Button variant={finalVariant} {...props}>
       {children}
-    </button>
+    </Button>
   );
 }

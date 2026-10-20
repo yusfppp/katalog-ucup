@@ -1,40 +1,55 @@
 import { formatRupiah } from "@/lib/format";
-import Tombol from "@/components/Tombol";
+import Button from "@/components/Button";
 
 export default function TabelProduk({ daftarProduk }) {
   return (
-    <div className="overflow-x-auto rounded-2xl border border-garis">
+    <div className="overflow-x-auto rounded-[20px] border-[1.5px] border-border bg-surface shadow-warm">
       <table className="w-full min-w-[560px] text-left text-sm">
-        <thead className="bg-permukaan text-teks-lembut">
+        <thead className="bg-primary-soft/40 text-secondary border-b border-border">
           <tr>
-            <th className="px-4 py-3 font-semibold">Produk</th>
-            <th className="px-4 py-3 font-semibold">Kategori</th>
-            <th className="px-4 py-3 font-semibold">Harga</th>
-            <th className="px-4 py-3 font-semibold">
-              <span className="sr-only">Aksi</span>
-            </th>
+            <th className="px-5 py-4 font-bold font-heading text-base">Produk Donat</th>
+            <th className="px-5 py-4 font-bold font-heading text-base">Kategori</th>
+            <th className="px-5 py-4 font-bold font-heading text-base">Harga</th>
+            <th className="px-5 py-4 font-bold font-heading text-base text-right">Aksi</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="divide-y divide-border">
           {daftarProduk.map((produk) => (
-            <tr key={produk.id} className="border-t border-garis">
-              <td className="px-4 py-3">
+            <tr key={produk.id} className="hover:bg-bg/40 transition-colors">
+              <td className="px-5 py-3.5">
                 <div className="flex items-center gap-3">
-                  <img src={produk.foto_url} alt="" className="h-10 w-10 rounded-md object-cover" />
-                  <span className="font-semibold">{produk.nama}</span>
+                  <img
+                    src={produk.foto_url}
+                    alt=""
+                    className="h-11 w-11 rounded-xl object-cover border border-border bg-bg/50"
+                  />
+                  <span className="font-bold text-secondary">{produk.nama}</span>
                 </div>
               </td>
-              <td className="px-4 py-3 text-teks-lembut">{produk.kategori}</td>
-              <td className="px-4 py-3">{formatRupiah(produk.harga)}</td>
-              <td className="px-4 py-3">
+              <td className="px-5 py-3.5">
+                <span className="rounded-full bg-primary-soft px-3 py-0.5 text-xs font-bold text-primary">
+                  {produk.kategori || "Donat"}
+                </span>
+              </td>
+              <td className="px-5 py-3.5 font-bold text-primary">
+                {formatRupiah(produk.harga)}
+              </td>
+              <td className="px-5 py-3.5 text-right">
                 <div className="flex justify-end gap-2">
-                  {/* US-09 dan US-10 (bonus): ubah dan hapus produk */}
-                  <Tombol href={`/admin/produk/${produk.id}/ubah`} varian="garis">
+                  <Button
+                    href={`/admin/produk/${produk.id}/ubah`}
+                    variant="secondary"
+                    size="sm"
+                  >
                     Ubah
-                  </Tombol>
-                  <Tombol type="button" varian="bahaya">
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="danger"
+                    size="sm"
+                  >
                     Hapus
-                  </Tombol>
+                  </Button>
                 </div>
               </td>
             </tr>

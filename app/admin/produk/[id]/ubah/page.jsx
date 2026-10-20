@@ -14,11 +14,11 @@ export default async function HalamanUbahProduk({ params }) {
   }
 
   return (
-    <div className="flex flex-col gap-6 py-8">
+    <div className="mx-auto max-w-[1200px] px-4 py-8 sm:px-6 flex flex-col gap-6">
       <NavAdmin />
-      <h1 className="text-2xl font-extrabold">Ubah produk</h1>
+      <h1 className="font-heading text-3xl font-bold text-secondary">Ubah Donat</h1>
       <CatatanBelumAktif>Simpan perubahan belum berfungsi: lihat US-09.</CatatanBelumAktif>
-      <FormProduk produk={produk} labelTombol="Simpan perubahan" />
+      <FormProduk produk={produk} labelTombol="Simpan Perubahan" />
     </div>
   );
 }

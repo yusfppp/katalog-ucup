@@ -1,33 +1,91 @@
 @import "tailwindcss";
 
 /*
-  Token desain. Ganti nilai di sini untuk menyesuaikan dengan usahamu.
-  Penjelasan setiap token ada di DESIGN.md.
+  Design Tokens Alfa Bites (Brand Donat Mini Rumahan)
+  Warna, Tipografi, Radius, Shadow, dan Spacing
 */
 @theme {
-  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Fredoka", "Baloo 2", cursive, sans-serif;
+  --font-body: "Nunito", sans-serif;
+  --font-sans: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-  --color-latar: #ffffff;
-  --color-permukaan: #f1f5f2;
-  --color-garis: #dde5e0;
-  --color-teks: #1b2420;
-  --color-teks-lembut: #5b6a62;
+  --color-primary: #C93868;
+  --color-primary-hover: #B02E5A;
+  --color-primary-active: #962650;
+  --color-primary-soft: #FDE3EA;
+  --color-secondary: #4A2C2A;
+  --color-accent: #F2A33A;
+  --color-bg: #FFF7EC;
+  --color-surface: #FFFFFF;
+  --color-border: #F0DCCB;
+  --color-text: #5C4440;
+  --color-text-muted: #8A716B;
+  --color-success: #3E9B6B;
+  --color-error: #D93F3F;
+  --color-info: #3F7FBF;
 
-  --color-utama: #1f6b4f;
-  --color-utama-gelap: #154d39;
+  /* Legacy / Compatibility Token Mappings */
+  --color-latar: #FFF7EC;
+  --color-permukaan: #FFFFFF;
+  --color-garis: #F0DCCB;
+  --color-teks: #5C4440;
+  --color-teks-lembut: #8A716B;
+  --color-utama: #C93868;
+  --color-utama-gelap: #B02E5A;
+  --color-harga: #C93868;
+  --color-harga-latar: #FDE3EA;
+  --color-bahaya: #D93F3F;
+}
 
-  --color-harga: #7a4e09;
-  --color-harga-latar: #fbefd8;
+:root {
+  --color-primary: #C93868;
+  --color-primary-hover: #B02E5A;
+  --color-primary-active: #962650;
+  --color-primary-soft: #FDE3EA;
+  --color-secondary: #4A2C2A;
+  --color-accent: #F2A33A;
+  --color-bg: #FFF7EC;
+  --color-surface: #FFFFFF;
+  --color-border: #F0DCCB;
+  --color-text: #5C4440;
+  --color-text-muted: #8A716B;
+  --color-success: #3E9B6B;
+  --color-error: #D93F3F;
+  --color-info: #3F7FBF;
 
-  --color-bahaya: #b42318;
+  --shadow-warm-sm: 0 4px 12px rgba(74, 44, 42, 0.05);
+  --shadow-warm: 0 8px 24px rgba(74, 44, 42, 0.08);
+  --shadow-warm-lg: 0 16px 36px rgba(74, 44, 42, 0.12);
 }
 
 html {
-  color: var(--color-teks);
-  background: var(--color-latar);
+  scroll-behavior: smooth;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--color-secondary);
+  line-height: 1.2;
 }
 
 :focus-visible {
-  outline: 3px solid var(--color-utama);
+  outline: 3px solid var(--color-accent);
   outline-offset: 2px;
+}
+
+/* Donut sprinkle subtle decoration */
+.bg-sprinkles {
+  background-image: radial-gradient(var(--color-primary-soft) 1.5px, transparent 1.5px),
+                    radial-gradient(var(--color-accent) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: 0 0, 16px 16px;
 }
