@@ -54,7 +54,7 @@ export default function FaqSection() {
               </span>
               <span
                 className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary font-bold text-sm transition-transform duration-200 ${
-                  isBuka ? "rotate-180 bg-primary text-white" : ""
+                  isBuka ? "rotate-180 bg-primary text-on-primary" : ""
                 }`}
               >
                 ▼

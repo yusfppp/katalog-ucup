@@ -1,6 +1,6 @@
 import Input from "@/components/Input";
 import Button from "@/components/Button";
-import { login } from "@/app/admin/actions";
+import { login } from "@/lib/actions/auth";
 
 export const dynamic = "force-dynamic";
 

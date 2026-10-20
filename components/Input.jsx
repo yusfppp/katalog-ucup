@@ -9,6 +9,7 @@ import { useState, useRef } from "react";
 export default function Input({
   label,
   name,
+  id: idProp,
   type = "text", // text, email, tel, password, number, search, textarea, select, checkbox, radio, switch, date, time, stepper, file
   helperText,
   error,
@@ -26,6 +27,7 @@ export default function Input({
   rows = 4,
   maxLength,
   accept,
+  previewUrl = "",
   className = "",
   textarea = false,
   ...props
@@ -34,7 +36,9 @@ export default function Input({
   const [internalValue, setInternalValue] = useState(defaultValue ?? value ?? "");
   const [stepperValue, setStepperValue] = useState(Number(defaultValue ?? value ?? min ?? 1));
   const [fileName, setFileName] = useState("");
+  const [preview, setPreview] = useState(previewUrl);
   const inputRef = useRef(null);
+  const inputId = idProp || name;
 
   // Normalisasi type bila textarea=true
   const actualType = textarea ? "textarea" : type;
@@ -71,7 +75,7 @@ export default function Input({
     <div className={`flex flex-col gap-1.5 w-full ${className}`}>
       {/* Label Selalu di Atas (Kecuali Checkbox, Radio, Switch) */}
       {label && !["checkbox", "radio", "switch"].includes(actualType) && (
-        <label htmlFor={name} className="flex items-center gap-1 text-sm font-bold text-secondary">
+        <label htmlFor={inputId} className="flex items-center gap-1 text-sm font-bold text-secondary">
           <span>{label}</span>
           {required && <span className="text-error font-bold" aria-hidden="true">*</span>}
         </label>
@@ -83,7 +87,7 @@ export default function Input({
       {actualType === "textarea" && (
         <div className="relative">
           <textarea
-            id={name}
+            id={inputId}
             name={name}
             rows={rows}
             disabled={disabled}
@@ -110,7 +114,7 @@ export default function Input({
       {actualType === "password" && (
         <div className="relative flex items-center">
           <input
-            id={name}
+            id={inputId}
             name={name}
             type={showPassword ? "text" : "password"}
             disabled={disabled}
@@ -151,7 +155,7 @@ export default function Input({
             </svg>
           </span>
           <input
-            id={name}
+            id={inputId}
             name={name}
             type="text"
             disabled={disabled}
@@ -183,7 +187,7 @@ export default function Input({
       {actualType === "select" && (
         <div className="relative flex items-center">
           <select
-            id={name}
+            id={inputId}
             name={name}
             disabled={disabled}
             defaultValue={defaultValue}
@@ -211,7 +215,7 @@ export default function Input({
       {actualType === "checkbox" && (
         <label className="inline-flex items-center gap-3 cursor-pointer select-none">
           <input
-            id={name}
+            id={inputId}
             name={name}
             type="checkbox"
             disabled={disabled}
@@ -254,7 +258,7 @@ export default function Input({
         <label className="inline-flex items-center gap-3 cursor-pointer select-none">
           <div className="relative">
             <input
-              id={name}
+              id={inputId}
               name={name}
               type="checkbox"
               disabled={disabled}
@@ -286,7 +290,7 @@ export default function Input({
             −
           </button>
           <input
-            id={name}
+            id={inputId}
             name={name}
             type="number"
             readOnly
@@ -309,13 +313,19 @@ export default function Input({
       {actualType === "file" && (
         <div className="relative">
           <input
-            id={name}
+            id={inputId}
             name={name}
             type="file"
             accept={accept}
             disabled={disabled}
             onChange={(e) => {
-              if (e.target.files?.[0]) setFileName(e.target.files[0].name);
+              const file = e.target.files?.[0];
+              if (file) {
+                setFileName(file.name);
+                if (file.type?.startsWith("image/")) {
+                  setPreview(URL.createObjectURL(file));
+                }
+              }
               if (onChange) onChange(e);
             }}
             className="sr-only"
@@ -335,16 +345,26 @@ export default function Input({
               <p className="text-sm font-semibold text-secondary">
                 {fileName ? fileName : "Klik atau seret foto donat ke sini"}
               </p>
-              <p className="text-xs text-text-muted">PNG, JPG, WEBP hingga 5MB</p>
+              <p className="text-xs text-text-muted">PNG, JPG, WEBP hingga 2MB</p>
             </div>
           </div>
+          {preview && (
+            <div className="mt-3 overflow-hidden rounded-xl border border-border bg-bg/40 p-2">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={preview}
+                alt="Pratinjau foto yang dipilih"
+                className="mx-auto max-h-48 w-auto rounded-lg object-contain"
+              />
+            </div>
+          )}
         </div>
       )}
 
       {/* 10. STANDARD INPUTS: TEXT, EMAIL, TEL, NUMBER, DATE, TIME */}
       {!["textarea", "password", "search", "select", "checkbox", "radio", "switch", "stepper", "file"].includes(actualType) && (
         <input
-          id={name}
+          id={inputId}
           name={name}
           type={actualType}
           disabled={disabled}

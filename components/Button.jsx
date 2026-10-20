@@ -25,7 +25,7 @@ export default function Button({
 }) {
   // Base styling: pill (999px), font-bold, transitions, touch target >= 44px
   const baseClasses =
-    "inline-flex items-center justify-center font-bold rounded-full transition-all duration-200 cursor-pointer select-none outline-none min-h-[44px] active:scale-[0.98] focus-visible:ring-3 focus-visible:ring-accent focus-visible:ring-offset-2";
+    "inline-flex items-center justify-center font-bold rounded-full transition-all duration-200 cursor-pointer select-none outline-none min-h-[44px] active:scale-[0.98] focus-visible:ring-3 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg";
 
   // Size styling
   const sizeClasses = {
@@ -37,18 +37,18 @@ export default function Button({
   // Variant styling
   const variantClasses = {
     primary:
-      "bg-primary text-white hover:bg-primary-hover active:bg-primary-active shadow-md hover:shadow-lg hover:-translate-y-0.5",
+      "bg-primary text-on-primary hover:bg-primary-hover active:bg-primary-active shadow-md hover:shadow-lg hover:-translate-y-0.5",
     secondary:
-      "bg-primary-soft text-primary border-[1.5px] border-primary hover:bg-primary hover:text-white active:bg-primary-hover shadow-sm",
+      "bg-primary-soft text-primary border-[1.5px] border-primary hover:bg-primary hover:text-on-primary active:bg-primary-hover shadow-sm",
     tertiary:
       "bg-transparent text-secondary hover:bg-primary-soft hover:text-primary active:bg-primary-soft/80 border border-transparent",
     contrast:
-      "bg-surface text-primary hover:bg-primary-soft active:bg-white/90 shadow-md hover:shadow-lg hover:-translate-y-0.5",
+      "bg-surface text-primary hover:bg-primary-soft active:bg-primary-soft/80 shadow-md hover:shadow-lg hover:-translate-y-0.5",
     danger:
-      "bg-error text-white hover:opacity-90 active:opacity-100 shadow-sm",
+      "bg-error text-on-error hover:opacity-90 active:opacity-100 shadow-sm",
     "tertiary-light":
-      "bg-transparent text-border hover:bg-surface/10 hover:text-white border border-transparent",
-  }[variant] || "bg-primary text-white";
+      "bg-transparent text-on-footer hover:bg-on-footer/10 hover:text-accent border border-transparent",
+  }[variant] || "bg-primary text-on-primary";
 
   // Disabled and loading styling
   const stateClasses = (disabled || loading)

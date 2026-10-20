@@ -23,6 +23,12 @@
   --color-success: #3E9B6B;
   --color-error: #D93F3F;
   --color-info: #3F7FBF;
+  --color-on-primary: #FFFFFF;
+  --color-on-error: #FFFFFF;
+  --color-on-accent: #3D2608;
+  --color-on-secondary: #FFF7EC;
+  --color-footer: #4A2C2A;
+  --color-on-footer: #F0DCCB;
 
   /* Legacy / Compatibility Token Mappings */
   --color-latar: #FFF7EC;
@@ -52,16 +58,67 @@
   --color-success: #3E9B6B;
   --color-error: #D93F3F;
   --color-info: #3F7FBF;
+  --color-on-primary: #FFFFFF;
+  --color-on-error: #FFFFFF;
+  --color-on-accent: #3D2608;
+  --color-on-secondary: #FFF7EC;
+  --color-footer: #4A2C2A;
+  --color-on-footer: #F0DCCB;
 
   --shadow-warm-sm: 0 4px 12px rgba(74, 44, 42, 0.05);
   --shadow-warm: 0 8px 24px rgba(74, 44, 42, 0.08);
   --shadow-warm-lg: 0 16px 36px rgba(74, 44, 42, 0.12);
 }
 
+/*
+  Mode gelap: override design tokens, bukan warna di komponen.
+  Semua pasangan teks/latar di bawah dijaga agar tetap kontras (WCAG AA).
+*/
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-primary: #F08CAB;
+  --color-primary-hover: #F5A7BF;
+  --color-primary-active: #E9789A;
+  --color-primary-soft: #42222F;
+  --color-secondary: #FBE9E1;
+  --color-accent: #F6B45C;
+  --color-bg: #1A1210;
+  --color-surface: #241A17;
+  --color-border: #4A352F;
+  --color-text: #F2E3DC;
+  --color-text-muted: #C6AFA6;
+  --color-success: #74D6A4;
+  --color-error: #FF9A9A;
+  --color-info: #8FC4F7;
+  --color-on-primary: #2A0B14;
+  --color-on-error: #2A0808;
+  --color-on-accent: #2A1806;
+  --color-on-secondary: #2A1810;
+  --color-footer: #120C0B;
+  --color-on-footer: #EAD7CF;
+
+  --color-latar: #1A1210;
+  --color-permukaan: #241A17;
+  --color-garis: #4A352F;
+  --color-teks: #F2E3DC;
+  --color-teks-lembut: #C6AFA6;
+  --color-utama: #F08CAB;
+  --color-utama-gelap: #F5A7BF;
+  --color-harga: #F08CAB;
+  --color-harga-latar: #42222F;
+  --color-bahaya: #FF9A9A;
+
+  --shadow-warm-sm: 0 4px 12px rgba(0, 0, 0, 0.28);
+  --shadow-warm: 0 8px 24px rgba(0, 0, 0, 0.34);
+  --shadow-warm-lg: 0 16px 36px rgba(0, 0, 0, 0.42);
+}
+
 html {
   scroll-behavior: smooth;
   color: var(--color-text);
   background-color: var(--color-bg);
+  transition: background-color 200ms ease, color 200ms ease;
 }
 
 body {
