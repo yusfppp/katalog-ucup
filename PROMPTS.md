@@ -109,8 +109,8 @@ Buat file proxy.js di root proyek (Next.js 16). Semua rute /admin kecuali /admin
 ### Redesign & Styling Alfa Bites (Brand Donat Mini Rumahan)
 
 **Prompt:**
-Saat ini website masih berbentuk template kasar. Tolong styling ulang seluruh website Alfa Bites (brand donat mini rumahan) agar terlihat hangat, ceria, modern, dan konsisten.
 
+Saat ini website masih berbentuk template kasar. Tolong styling ulang seluruh website Alfa Bites (brand donat mini rumahan) agar terlihat hangat, ceria, modern, dan konsisten.
 ATURAN UTAMA
 1. Jangan ada text link. Semua elemen yang bisa diklik (navigasi, CTA, footer, sosial media, kartu produk) harus menggunakan komponen Button.
 2. Buat SATU komponen Button terpusat untuk semua jenis button. Dilarang membuat style button terpisah di halaman atau section lain.
@@ -209,3 +209,23 @@ OUTPUT YANG DIHARAPKAN
 
 **Perbaikan:**
 - Tidak ada perbaikan / kendala: seluruh komponen dan halaman terkompilasi dengan sempurna pada Turbopack Next.js 16 tanpa error atau warna hardcode.
+
+### US-07 List Produk
+
+**Prompt:**
+## US-07 List Produk
+
+Baca kriteria US-07 di docs/user-stories.md.
+Kondisi saat ini: app/admin/page.jsx mengimpor produkContoh dari @/lib/data-contoh lalu `const daftarProduk = produkContoh`, jadi daftar produk admin bukan dari Supabase.
+Tugas: ganti dengan query ke tabel "produk" di Supabase (server component, memakai Supabase server client). Tampilkan hasilnya di TabelProduk (nama, kategori, harga, foto). Tambahkan empty state dan error state. Hapus import data contoh dari halaman ini.
+
+**Hasil:**
+- Mengubah `app/admin/page.jsx` menjadi async Server Component yang mengambil data produk langsung dari tabel `produk` di database Supabase pada sisi server.
+- Menghapus import data contoh (`produkContoh` dari `lib/data-contoh.js`).
+- Menampilkan data produk ke dalam `TabelProduk` dengan informasi lengkap: foto produk (lazy loading), nama donat, kategori donat, dan harga terformat Rupiah.
+- Menambahkan penanganan empty state jika tabel produk di database masih kosong (pada level page dan tabel).
+- Menambahkan penanganan error state jika terjadi kegagalan query database dengan tampilan pesan error yang jelas.
+- Memastikan pengecekan autentikasi admin di server component sebelum merender halaman.
+
+**Perbaikan:**
+- Tidak ada perbaikan / kendala: build dan integrasi database berjalan lancar tanpa error.
