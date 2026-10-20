@@ -58,10 +58,19 @@ Ubah components/TombolWhatsApp.jsx menjadi tautan yang membuka https://wa.me/ ke
 ## US-04 Login admin
 
 **Prompt:**
+Baca AGENTS.md bagian aturan keamanan dan docs/user-stories.md bagian US-04.
+
+Buat login admin memakai Supabase Auth (email dan password) dengan @supabase/ssr dan cookie, memakai SUPABASE_URL dan SUPABASE_PUBLISHABLE_KEY. Login diproses dengan Server Action di app/admin/actions.js dan disambungkan ke form di app/admin/login/page.jsx. Login berhasil diarahkan ke /admin; login gagal menampilkan pesan error yang jelas di halaman login. Buat juga tombol "Keluar" di components/NavAdmin.jsx berfungsi: mengakhiri sesi lalu kembali ke /admin/login. Jangan ubah tampilan. Hapus CatatanBelumAktif dari halaman login.
 
 **Hasil:**
+- Menambahkan fungsi helper `buatKlienSesiAdmin` di `lib/supabase/server.js` menggunakan `@supabase/ssr` dan cookie storage berbasis Next.js `cookies()`, didukung `SUPABASE_URL` dan `SUPABASE_PUBLISHABLE_KEY`.
+- Membuat Server Action `login` dan `keluar` di `app/admin/actions.js` untuk autentikasi Supabase Auth (`signInWithPassword` dan `signOut`).
+- Memperbarui `app/admin/login/page.jsx` agar memproses login via Server Action, menampilkan pesan error yang ramah pengguna jika gagal, dan mempertahankan input email.
+- Mengaktifkan tombol "Keluar" pada `components/NavAdmin.jsx` untuk mengakhiri sesi dan mengarahkan kembali ke `/admin/login`.
+- Menghapus komponen `CatatanBelumAktif` dari halaman login.
 
 **Perbaikan:**
+- Tidak ada perbaikan / kendala: implementasi dan build berhasil tanpa hambatan.
 
 ## US-05 Ganti password
 
