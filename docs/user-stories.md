@@ -129,7 +129,7 @@ Bernilai 10 poin.
 Kriteria selesai:
 
 - Tombol "Hapus" meminta konfirmasi. (4 poin)
-- Produk terhapus dari database. (3 poin)
+- Produk terhapus dari database; foto di Supabase Storage ikut dihapus jika produk menggunakannya. (3 poin)
 - Aksinya terlindungi login: tanpa login ditolak oleh server. (3 poin)
 
 ### US-11 Filter kategori atau pencarian

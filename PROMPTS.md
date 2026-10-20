@@ -272,3 +272,22 @@ Tugas: ambil produk dari Supabase berdasarkan id (notFound() jika tidak ada), is
 
 **Perbaikan:**
 - Tidak ada perbaikan / kendala: build dan alur ubah produk berjalan lancar tanpa error.
+
+### US-10 Hapus produk
+
+**Prompt:**
+## US-10 Hapus Produk
+
+Baca kriteria US-10 di docs/user-stories.md.
+Kondisi saat ini: tombol Hapus di TabelProduk hanya type="button" tanpa handler, tanpa konfirmasi, dan tanpa operasi delete ke Supabase.
+Tugas: buat Server Action hapus (cek sesi admin) yang menjalankan delete di tabel "produk" dan revalidatePath. Klik Hapus membuka dialog konfirmasi (Button "Batal" dan "Ya, Hapus"). Jika produk punya file foto di Storage, hapus juga. Tampilkan notifikasi hasil.
+
+**Hasil:**
+- Membuat Server Action `hapusProduk` di `app/admin/actions.js` yang memvalidasi ID produk dan sesi admin di server sebelum melakukan penghapusan.
+- Menghapus foto produk dari Supabase Storage jika URL foto berasal dari Storage proyek, lalu menghapus produk dari tabel `produk`.
+- Menambahkan `revalidatePath` untuk halaman admin, katalog, dan detail produk setelah penghapusan berhasil.
+- Mengubah `components/TabelProduk.jsx` agar tombol Hapus membuka dialog konfirmasi dengan tombol `Batal` dan `Ya, Hapus`, termasuk state loading dan notifikasi hasil.
+- Memperbarui kriteria US-10 di `docs/user-stories.md` agar mencantumkan penghapusan foto Storage.
+
+**Perbaikan:**
+- `npm run build` berhasil dan `git diff --check` tidak menemukan masalah whitespace.

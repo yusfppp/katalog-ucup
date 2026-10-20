@@ -1,7 +1,54 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { buatKlienSesiAdmin } from "@/lib/supabase/server";
+
+function ambilReferensiFotoStorage(fotoUrl) {
+  if (!fotoUrl || !/^https?:\/\//i.test(fotoUrl)) {
+    return null;
+  }
+
+  let urlFoto;
+  let urlSupabase;
+
+  try {
+    urlFoto = new URL(fotoUrl);
+    const supabaseUrl = process.env.SUPABASE_URL?.trim()
+      .replace(/\/rest\/v1\/?$/, "")
+      .replace(/\/+$/, "");
+    if (!supabaseUrl) {
+      throw new Error("SUPABASE_URL belum diatur di environment variable.");
+    }
+    urlSupabase = new URL(supabaseUrl);
+  } catch (err) {
+    throw new Error(err.message || "URL foto produk tidak valid.");
+  }
+
+  if (urlFoto.origin !== urlSupabase.origin) {
+    return null;
+  }
+
+  const prefixStorage = `${urlSupabase.pathname.replace(/\/+$/, "")}/storage/v1/object/`;
+  if (!urlFoto.pathname.startsWith(prefixStorage)) {
+    return null;
+  }
+
+  const bagianObjek = urlFoto.pathname.slice(prefixStorage.length);
+  const cocok = bagianObjek.match(/^(?:public|sign|authenticated)\/([^/]+)\/(.+)$/);
+  if (!cocok) {
+    throw new Error("Format URL foto Supabase Storage tidak dikenali.");
+  }
+
+  try {
+    return {
+      bucket: decodeURIComponent(cocok[1]),
+      path: decodeURIComponent(cocok[2]),
+    };
+  } catch {
+    throw new Error("URL foto Supabase Storage tidak valid.");
+  }
+}
 
 export async function login(formData) {
   const email = formData?.get("email");
@@ -204,4 +251,98 @@ export async function ubahProduk(id, prevState, formData) {
 
   // 5. Redirect kembali ke /admin setelah berhasil
   redirect("/admin");
+}
+
+export async function hapusProduk(id) {
+  const idProduk = String(id ?? "").trim();
+  if (!/^[1-9]\d*$/.test(idProduk) || !Number.isSafeInteger(Number(idProduk))) {
+    return { error: "ID produk tidak valid." };
+  }
+
+  let supabase;
+  try {
+    supabase = await buatKlienSesiAdmin();
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    if (userError || !user) {
+      return { error: "Akses ditolak: silakan login sebagai admin terlebih dahulu." };
+    }
+  } catch (err) {
+    return { error: err.message || "Gagal memverifikasi sesi admin." };
+  }
+
+  let produk;
+  try {
+    const { data, error } = await supabase
+      .from("produk")
+      .select("id, foto_url")
+      .eq("id", Number(idProduk))
+      .maybeSingle();
+
+    if (error) {
+      return { error: `Gagal memeriksa produk: ${error.message}` };
+    }
+    if (!data) {
+      return { error: "Produk tidak ditemukan atau sudah dihapus." };
+    }
+    produk = data;
+  } catch (err) {
+    return { error: err.message || "Terjadi kesalahan saat memeriksa produk." };
+  }
+
+  let referensiFoto;
+  try {
+    referensiFoto = ambilReferensiFotoStorage(produk.foto_url);
+  } catch (err) {
+    return { error: err.message || "Gagal membaca lokasi foto produk." };
+  }
+
+  let fotoDihapus = false;
+  if (referensiFoto) {
+    try {
+      const { error } = await supabase.storage
+        .from(referensiFoto.bucket)
+        .remove([referensiFoto.path]);
+
+      if (error) {
+        return { error: `Gagal menghapus foto dari Supabase Storage: ${error.message}` };
+      }
+      fotoDihapus = true;
+    } catch (err) {
+      return { error: err.message || "Terjadi kesalahan saat menghapus foto dari Storage." };
+    }
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from("produk")
+      .delete()
+      .eq("id", Number(idProduk))
+      .select("id")
+      .maybeSingle();
+
+    if (error) {
+      const detail = fotoDihapus
+        ? `Foto berhasil dihapus, tetapi produk gagal dihapus: ${error.message}`
+        : `Gagal menghapus produk: ${error.message}`;
+      return { error: detail };
+    }
+    if (!data) {
+      return {
+        error: fotoDihapus
+          ? "Foto berhasil dihapus, tetapi produk sudah tidak ditemukan di database."
+          : "Produk tidak ditemukan atau sudah dihapus.",
+      };
+    }
+  } catch (err) {
+    return {
+      error: fotoDihapus
+        ? `Foto berhasil dihapus, tetapi produk gagal dihapus: ${err.message || "terjadi kesalahan pada server."}`
+        : err.message || "Terjadi kesalahan saat menghapus produk.",
+    };
+  }
+
+  revalidatePath("/admin");
+  revalidatePath("/");
+  revalidatePath(`/produk/${idProduk}`);
+  return { success: "Produk berhasil dihapus." };
 }
