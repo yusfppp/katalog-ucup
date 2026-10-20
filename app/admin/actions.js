@@ -60,3 +60,45 @@ export async function keluar() {
   redirect("/admin/login");
 }
 
+export async function gantiPassword(formData) {
+  const passwordBaru = formData?.get("password_baru");
+  const konfirmasiPassword = formData?.get("konfirmasi_password");
+
+  if (!passwordBaru || passwordBaru.length < 8) {
+    redirect("/admin/password?error=" + encodeURIComponent("Password baru minimal 8 karakter."));
+  }
+
+  if (passwordBaru !== konfirmasiPassword) {
+    redirect("/admin/password?error=" + encodeURIComponent("Password baru dan konfirmasi harus sama."));
+  }
+
+  let errorPesan = null;
+
+  try {
+    const supabase = await buatKlienSesiAdmin();
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+      redirect("/admin/login?error=" + encodeURIComponent("Silakan login terlebih dahulu."));
+    }
+
+    const { error } = await supabase.auth.updateUser({
+      password: String(passwordBaru),
+    });
+
+    if (error) {
+      errorPesan = error.message;
+    }
+  } catch (err) {
+    if (err?.message === "NEXT_REDIRECT" || err?.digest?.startsWith("NEXT_REDIRECT")) {
+      throw err;
+    }
+    errorPesan = err.message || "Terjadi kesalahan saat mengganti password.";
+  }
+
+  if (errorPesan) {
+    redirect("/admin/password?error=" + encodeURIComponent(errorPesan));
+  }
+
+  redirect("/admin/password?sukses=" + encodeURIComponent("Password berhasil diganti."));
+}
