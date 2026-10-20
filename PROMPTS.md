@@ -5,26 +5,55 @@ Catat prompt penting selama membangun aplikasi: apa yang kamu minta, hasilnya, d
 ## US-01 Katalog dari database
 
 **Prompt:**
+Baca AGENTS.md dan docs/user-stories.md bagian US-01.
+
+Ubah app/page.jsx supaya daftar produk diambil dari tabel "produk" di Supabase, di sisi server, memakai SUPABASE_URL dan SUPABASE_SECRET_KEY dari environment variable. Buat koneksi Supabase untuk server di folder lib/supabase.
+
+Tampilkan produk dengan komponen KartuProduk yang sudah ada, tanpa mengubah tampilannya. Kalau gagal mengambil data, tampilkan pesan error yang jelas di halaman. Kalau tabel kosong, tampilkan tulisan "Belum ada produk". Hapus CatatanBelumAktif dari halaman ini.
 
 **Hasil:**
+- Membuat helper koneksi Supabase server di `lib/supabase/server.js` dan `lib/supabase/index.js` dengan `SUPABASE_URL` dan `SUPABASE_SECRET_KEY`.
+- Memperbarui `app/page.jsx` menjadi Server Component yang mengambil produk langsung dari tabel `produk` di Supabase.
+- Menampilkan daftar produk menggunakan komponen `KartuProduk`.
+- Menampilkan pesan "Belum ada produk" saat tabel kosong dan pesan error jika query gagal.
+- Menghapus komponen `CatatanBelumAktif` dan ketergantungan pada `lib/data-contoh.js`.
 
 **Perbaikan:**
+- Menambahkan sanitasi URL pada koneksi Supabase untuk otomatis membersihkan trailing slash atau path `/rest/v1` bila ada pada environment variable.
 
 ## US-02 Detail produk
 
 **Prompt:**
+Baca docs/user-stories.md bagian US-02.
+
+Ubah app/produk/[id]/page.jsx supaya mengambil satu produk dari tabel "produk" di Supabase berdasarkan id di URL, di sisi server, memakai koneksi Supabase yang sudah dibuat di lib/supabase. Kalau produk tidak ditemukan, panggil notFound(). Jangan ubah tampilannya. Hapus CatatanBelumAktif dari halaman ini, tapi biarkan tombol WhatsApp.
 
 **Hasil:**
+- Mengubah `app/produk/[id]/page.jsx` agar mengambil data produk dari tabel `produk` di database Supabase berdasarkan parameter `id` di sisi server menggunakan `buatKlienServer`.
+- Menangani produk yang tidak ditemukan atau query error dengan memanggil `notFound()`.
+- Menghapus komponen `CatatanBelumAktif` dan pemanggilan `cariProdukContoh` dari `lib/data-contoh.js`.
+- Mempertahankan tata letak tampilan serta komponen `TombolWhatsApp`.
 
 **Perbaikan:**
+- Tidak ada perbaikan / kendala: implementasi dan build berhasil tanpa hambatan.
 
 ## US-03 Pesan via WhatsApp
 
 **Prompt:**
+Baca docs/rancangan-teknis.md bagian "Pesan WhatsApp (US-03)".
+
+Ubah components/TombolWhatsApp.jsx menjadi tautan yang membuka https://wa.me/ ke nomor di lib/toko.js, dengan pesan otomatis berisi nama dan harga produk dalam format rupiah. Pesan di-encode dengan encodeURIComponent dan dibuka di tab baru. Pertahankan tampilan tombolnya. Hapus CatatanBelumAktif yang menyebut US-03 di halaman detail produk.
 
 **Hasil:**
+- Mengubah `components/TombolWhatsApp.jsx` menjadi elemen tautan (`<a>`) yang mengarah ke `https://wa.me/<nomor>?text=<pesan>`.
+- Nomor WhatsApp diambil dari `lib/toko.js`.
+- Pesan otomatis dibuat menyertakan nama produk dan harga terformat rupiah (`formatRupiah`), serta di-encode dengan `encodeURIComponent`.
+- Menambahkan `target="_blank"` dan `rel="noopener noreferrer"` untuk membuka WhatsApp di tab baru.
+- Mempertahankan tampilan dan class tombol.
+- Memastikan komponen `CatatanBelumAktif` sudah bersih dari halaman detail produk.
 
 **Perbaikan:**
+- Tidak ada perbaikan / kendala: implementasi dan build berhasil tanpa hambatan.
 
 ## US-04 Login admin
 
