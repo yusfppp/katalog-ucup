@@ -1,80 +1,82 @@
-# Katalog UMKM + Order WhatsApp
+# Alfa Bites — Katalog UMKM + Order WhatsApp
 
-Template workshop vibe coding Creative Hub App Talent (CHAT) 2026. Repo ini berisi tampilan aplikasi katalog UMKM; tugasmu merangkainya menjadi sistem utuh dengan bantuan AI: database, login admin, keamanan, dan pemesanan lewat WhatsApp.
+Website katalog produk **Alfa Bites** (_Small Bites, Big Smiles._), UMKM makanan/minuman di Batam. Pengunjung melihat katalog dan detail produk dari database, lalu memesan langsung lewat WhatsApp dengan pesan otomatis. Pemilik toko mengelola produk lewat halaman admin yang aman.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fandixurniawan%2Fkatalog-umkm&project-name=katalog-umkm&repository-name=katalog-umkm)
+**Link:** _isi dengan link Vercel-mu_
 
-## Langkah awal
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fyusfppp%2Fkatalog-ucup&project-name=katalog-ucup&repository-name=katalog-ucup)
 
-1. **Salin repo ke akun GitHub-mu.** Klik tombol **Deploy with Vercel** di atas. Vercel akan membuat repo baru di akun GitHub-mu dan langsung men-deploy-nya. Setelah selesai, buka link Vercel-mu: katalog tampil dengan data contoh.
-2. **Buat proyek Supabase.** Masuk ke [supabase.com](https://supabase.com) dengan akun GitHub, lalu buat proyek baru. Simpan password database di tempat aman.
-3. **Siapkan database.** Di Supabase, buka **SQL Editor**, tempel seluruh isi `docs/schema.sql`, lalu klik **Run**. Tabel `produk` beserta data awal akan terbentuk.
-4. **Siapkan akun admin.** Ikuti panduan akun admin yang dibagikan mentor. Setelah itu matikan pendaftaran akun baru di **Authentication > Sign In / Providers**.
-5. **Isi environment variable di Vercel.** Buka proyekmu di Vercel > **Settings > Environment Variables**, lalu isi tiga variabel dari `.env.example`. Nilainya ada di Supabase > **Project Settings > API**. Setelah itu lakukan **Redeploy**.
-6. **Clone repo ke laptop.**
+## Fitur
+
+### Utama
+
+- Katalog produk dari database Supabase (bukan data contoh)
+- Halaman detail produk per item
+- Pesan via WhatsApp dengan pesan otomatis (nama produk, harga, jumlah)
+- Login admin dengan Supabase Auth
+- Ganti password admin
+- Halaman admin terproteksi: hanya bisa dibuka admin yang sudah login
+
+### Manajemen produk (admin)
+
+- Daftar produk di halaman admin
+- Tambah, ubah, dan hapus produk
+
+## Menjalankan di laptop
+
+1. **Clone repo.**
 
    ```bash
-   git clone https://github.com/<akunmu>/<nama-repo>.git
-   cd <nama-repo>
+   git clone https://github.com/yusfppp/katalog-ucup.git
+   cd katalog-ucup
    npm install
    ```
 
-7. **Buat file `.env.local`.** Salin `.env.example` menjadi `.env.local`, lalu isi dengan nilai yang sama seperti di Vercel.
-8. **Jalankan di laptop.**
+2. **Siapkan Supabase.** Buat proyek baru di [supabase.com](https://supabase.com), buka **SQL Editor**, tempel isi `docs/schema.sql`, lalu klik **Run**. Tabel `produk` beserta data awal akan terbentuk.
+3. **Siapkan akun admin** lewat dashboard Supabase (**Authentication > Users**), lalu matikan pendaftaran akun baru di **Authentication > Sign In / Providers**.
+4. **Buat file `.env.local`.** Salin `.env.example` menjadi `.env.local`, lalu isi ketiga variabelnya dengan nilai dari Supabase > **Project Settings > API**.
+5. **Jalankan.**
 
    ```bash
    npm run dev
    ```
 
-   Buka `http://localhost:3000`.
+   Buka `http://localhost:3000`. Login admin ada di `http://localhost:3000/admin/login`.
 
-## Alur kerja
+## Deploy ke Vercel
 
-Kerjakan satu user story setiap kali, lalu simpan dan kirim perubahan:
+1. Klik tombol **Deploy with Vercel** di atas, atau impor repo `yusfppp/katalog-ucup` lewat dashboard Vercel.
+2. Isi ketiga environment variable di **Settings > Environment Variables** (nilai yang sama dengan `.env.local`).
+3. Setelah selesai, setiap `git push` akan otomatis men-deploy versi terbaru.
 
-```bash
-git add .
-git commit -m "US-01: katalog dari database"
-git push
-```
-
-Setiap `git push`, Vercel otomatis men-deploy versi terbaru. Cek hasilnya di link Vercel-mu.
-
-Urutan yang disarankan: US-01, US-02, US-03, US-04, US-05, US-06, lalu fitur bonus. Daftar lengkap ada di `docs/user-stories.md`.
-
-## Isi repo
+## Struktur repo
 
 | File atau folder | Isi |
 | --- | --- |
 | `AGENTS.md` | Aturan untuk AI agent, dibaca sebelum setiap prompt |
 | `DESIGN.md` | Panduan warna, huruf, dan komponen |
-| `PROMPTS.md` | Jurnal prompt, wajib diisi |
-| `docs/` | Problem statement, PRD, user story, rancangan teknis, skema database, checklist |
+| `PROMPTS.md` | Jurnal prompt |
+| `docs/` | PRD, user story, rancangan teknis, skema database, checklist |
 | `lib/toko.js` | Nama toko, nomor WhatsApp, alamat, jam buka |
-| `app/` | Halaman aplikasi |
+| `app/` | Halaman aplikasi (katalog, detail produk, admin) |
 | `components/` | Komponen tampilan |
 
-## Menyesuaikan dengan usahamu
+## Menyesuaikan
 
-- Identitas toko: ubah `lib/toko.js`.
+- Identitas toko (nama, nomor WhatsApp, alamat, jam buka): ubah `lib/toko.js`.
 - Warna: ubah bagian `@theme` di `app/globals.css` (lihat `DESIGN.md`).
-- Produk: ubah langsung di Supabase > **Table Editor > produk**.
+- Produk: kelola langsung lewat halaman admin, atau lewat Supabase > **Table Editor > produk**.
 
 ## Aturan penting
 
 - Jangan menyimpan kunci atau password di kode, dan jangan push file `.env.local`.
 - Jangan memberi awalan `NEXT_PUBLIC_` pada environment variable.
+- Akses Supabase hanya dari sisi server (Server Component, Server Action, atau Route Handler).
 - Isi `PROMPTS.md` setiap menyelesaikan fitur.
-
-## Sebelum mengumpulkan
-
-1. Jalankan semua poin di `docs/checklist-keamanan.md` dan `docs/checklist-pengujian.md` pada link Vercel.
-2. Lengkapi bagian di bawah ini.
-3. Push perubahan terakhir sebelum batas waktu.
 
 ## Tentang aplikasi ini
 
-- **Nama usaha:**
+- **Nama usaha:** Alfa Bites
 - **Pembuat:**
 - **Link aplikasi:**
-- **Fitur bonus yang dikerjakan:**
+- **Fitur bonus yang dikerjakan:** List produk di admin (US-07), Tambah produk (US-08), Ubah produk (US-09), Hapus produk (US-10)

@@ -1,5 +1,6 @@
 import KartuProduk from "@/components/KartuProduk";
 import Button from "@/components/Button";
+import Input from "@/components/Input";
 import FormPemesanan from "@/components/FormPemesanan";
 import FaqSection from "@/components/FaqSection";
 import { buatKlienServer } from "@/lib/supabase/server";
@@ -7,26 +8,68 @@ import { toko } from "@/lib/toko";
 
 export const dynamic = "force-dynamic";
 
-export default async function HalamanKatalog() {
+export default async function HalamanKatalog({ searchParams }) {
+  const params = await searchParams;
+  const kataKunci = typeof params?.q === "string" ? params.q.trim().slice(0, 100) : "";
+  const kategoriDipilih = typeof params?.kategori === "string" ? params.kategori.trim() : "";
   let daftarProduk = [];
+  let daftarKategori = [];
   let pesanError = null;
 
   try {
     const supabase = buatKlienServer();
-    const { data, error } = await supabase
+    const { data: kategoriData, error: kategoriError } = await supabase
       .from("produk")
-      .select("*")
-      .order("created_at", { ascending: false });
+      .select("kategori")
+      .not("kategori", "is", null);
 
-    if (error) {
-      pesanError = `Gagal memuat produk: ${error.message}`;
+    if (kategoriError) {
+      pesanError = `Gagal memuat kategori: ${kategoriError.message}`;
     } else {
-      daftarProduk = data || [];
+      daftarKategori = [...new Set(
+        (kategoriData || [])
+          .map((produk) => produk.kategori?.trim())
+          .filter(Boolean)
+      )].sort((a, b) => a.localeCompare(b, "id"));
+    }
+
+    if (!pesanError) {
+      const kategoriValid = daftarKategori.includes(kategoriDipilih)
+        ? kategoriDipilih
+        : "";
+      const supabaseQuery = supabase
+        .from("produk")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (kataKunci) {
+        const kataKunciAman = kataKunci.replace(/[\\%_]/g, "\\$&");
+        supabaseQuery.ilike("nama", `%${kataKunciAman}%`);
+      }
+      if (kategoriValid) {
+        supabaseQuery.eq("kategori", kategoriValid);
+      }
+
+      const { data, error } = await supabaseQuery;
+      if (error) {
+        pesanError = `Gagal memuat produk: ${error.message}`;
+      } else {
+        daftarProduk = data || [];
+      }
     }
   } catch (err) {
     pesanError = `Gagal memuat produk: ${err.message || "Terjadi kesalahan pada server."}`;
   }
 
+  const kategoriAktif = daftarKategori.includes(kategoriDipilih) ? kategoriDipilih : "";
+  const sedangDifilter = Boolean(kataKunci || kategoriAktif);
+  const buatUrlFilter = (kategori) => {
+    const query = new URLSearchParams();
+    if (kataKunci) query.set("q", kataKunci);
+    if (kategori) query.set("kategori", kategori);
+    const queryString = query.toString();
+    return `/${queryString ? `?${queryString}` : ""}#katalog`;
+  };
   const nomorWA = (toko.nomorWhatsApp || "").replace(/\D/g, "");
 
   return (
@@ -206,12 +249,70 @@ export default async function HalamanKatalog() {
           </Button>
         </div>
 
+        <div className="mb-8 flex flex-col gap-5">
+          <form action="/#katalog" method="get" className="flex flex-col gap-3 sm:flex-row">
+            <Input
+              label="Cari donat"
+              name="q"
+              type="search"
+              defaultValue={kataKunci}
+              maxLength={100}
+              placeholder="Cari berdasarkan nama produk..."
+              className="flex-1"
+            />
+            {kategoriAktif && (
+              <Input type="hidden" name="kategori" value={kategoriAktif} />
+            )}
+            <Button
+              type="submit"
+              variant="primary"
+              className="self-end"
+            >
+              Cari
+            </Button>
+          </form>
+
+          <div className="flex flex-wrap items-center gap-2" aria-label="Filter kategori">
+            <span className="mr-1 text-sm font-bold text-secondary">Kategori:</span>
+            <Button
+              href={buatUrlFilter("")}
+              variant={kategoriAktif ? "secondary" : "primary"}
+              size="sm"
+              aria-current={!kategoriAktif ? "page" : undefined}
+            >
+              Semua
+            </Button>
+            {daftarKategori.map((kategori) => (
+              <Button
+                key={kategori}
+                href={buatUrlFilter(kategori)}
+                variant={kategoriAktif === kategori ? "primary" : "secondary"}
+                size="sm"
+                aria-current={kategoriAktif === kategori ? "page" : undefined}
+              >
+                {kategori}
+              </Button>
+            ))}
+          </div>
+        </div>
+
         {pesanError ? (
           <div className="rounded-[20px] border-[1.5px] border-error/30 bg-surface p-8 text-center shadow-warm">
             <p className="font-heading text-xl font-bold text-error">{pesanError}</p>
             <p className="mt-2 text-sm text-text-muted">
               Pastikan koneksi Supabase dan environment variable sudah dikonfigurasi dengan benar.
             </p>
+          </div>
+        ) : daftarProduk.length === 0 && sedangDifilter ? (
+          <div className="rounded-[20px] border-[1.5px] border-border bg-surface p-8 sm:p-12 text-center shadow-warm flex flex-col items-center gap-3">
+            <span className="text-5xl" aria-hidden="true">🔎</span>
+            <p className="font-heading text-2xl font-bold text-secondary">Produk tidak ditemukan</p>
+            <p className="text-sm text-text-muted">
+              Coba kata pencarian atau kategori lain.
+            </p>
+            <Button href="/#katalog" variant="primary" className="mt-2">
+              Reset filter
+            </Button>
           </div>
         ) : daftarProduk.length === 0 ? (
           <div className="rounded-[20px] border-[1.5px] border-border bg-surface p-12 text-center shadow-warm">
