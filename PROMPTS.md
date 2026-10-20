@@ -106,11 +106,11 @@ Buat file proxy.js di root proyek (Next.js 16). Semua rute /admin kecuali /admin
 
 ## Debugging dan fitur bonus
 
-### Redesign & Styling Alfa Bites (Brand Donat Mini Rumahan)
+### [SENDIRI] Redesign & Styling Alfa Bites (Brand Donat Mini Rumahan)
 
 **Prompt:**
-
 Saat ini website masih berbentuk template kasar. Tolong styling ulang seluruh website Alfa Bites (brand donat mini rumahan) agar terlihat hangat, ceria, modern, dan konsisten.
+
 ATURAN UTAMA
 1. Jangan ada text link. Semua elemen yang bisa diklik (navigasi, CTA, footer, sosial media, kartu produk) harus menggunakan komponen Button.
 2. Buat SATU komponen Button terpusat untuk semua jenis button. Dilarang membuat style button terpisah di halaman atau section lain.
@@ -229,3 +229,23 @@ Tugas: ganti dengan query ke tabel "produk" di Supabase (server component, memak
 
 **Perbaikan:**
 - Tidak ada perbaikan / kendala: build dan integrasi database berjalan lancar tanpa error.
+
+### US-08 Tambah produk
+
+**Prompt:**
+## US-08 Tambah Produk
+
+Baca kriteria US-08 di docs/user-stories.md.
+Kondisi saat ini: FormProduk tidak punya action atau Server Action dan tidak memanggil Supabase. Halaman tambah menampilkan CatatanBelumAktif "Simpan produk belum berfungsi". Tidak ada insert ke DB maupun redirect ke /admin.
+Tugas: buat Server Action (cek sesi admin) yang meng-insert ke tabel "produk" (nama, harga, kategori, deskripsi, foto_url), lalu redirect ke /admin. Hubungkan ke FormProduk dengan useActionState, tampilkan state loading pada Button, dan hapus CatatanBelumAktif dari halaman ini.
+
+**Hasil:**
+- Membuat Server Action `tambahProduk` di `app/admin/actions.js` yang memverifikasi sesi aktif admin di server (`supabase.auth.getUser()`) sebelum melakukan mutasi data.
+- Memvalidasi data input di server (nama wajib diisi, harga berupa angka valid >= 0).
+- Menyimpan data donat baru (nama, harga, kategori, deskripsi, foto_url) ke tabel `produk` di Supabase.
+- Mengalihkan halaman kembali ke `/admin` (`redirect("/admin")`) setelah berhasil menyimpan produk.
+- Menghubungkan form di `components/FormProduk.jsx` dengan hook `useActionState`, menampilkan state loading dan disabled pada tombol `Button` saat proses simpan sedang berlangsung, serta menampilkan pesan error jika ada validasi yang gagal.
+- Menghapus komponen `CatatanBelumAktif` dari `app/admin/produk/baru/page.jsx`.
+
+**Perbaikan:**
+- Tidak ada perbaikan / kendala: implementasi dan validasi build berjalan mulus.

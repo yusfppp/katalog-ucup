@@ -102,3 +102,53 @@ export async function gantiPassword(formData) {
 
   redirect("/admin/password?sukses=" + encodeURIComponent("Password berhasil diganti."));
 }
+
+export async function tambahProduk(prevState, formData) {
+  // 1. Verifikasi login admin di server (US-08)
+  let supabase;
+  try {
+    supabase = await buatKlienSesiAdmin();
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    if (userError || !user) {
+      return { error: "Akses ditolak: silakan login sebagai admin terlebih dahulu." };
+    }
+  } catch (err) {
+    return { error: err.message || "Gagal memverifikasi sesi admin." };
+  }
+
+  // 2. Ambil dan validasi input data produk
+  const nama = formData?.get("nama")?.toString().trim();
+  const hargaRaw = formData?.get("harga")?.toString().trim();
+  const kategori = formData?.get("kategori")?.toString().trim() || null;
+  const deskripsi = formData?.get("deskripsi")?.toString().trim() || null;
+  const foto_url = formData?.get("foto_url")?.toString().trim() || "/produk/kopi.svg";
+
+  if (!nama) {
+    return { error: "Nama donat wajib diisi." };
+  }
+
+  const harga = parseInt(hargaRaw, 10);
+  if (isNaN(harga) || harga < 0) {
+    return { error: "Harga donat harus berupa angka valid (minimal 0)." };
+  }
+
+  // 3. Simpan ke tabel 'produk' di Supabase
+  try {
+    const { error: insertError } = await supabase.from("produk").insert({
+      nama,
+      harga,
+      kategori,
+      deskripsi,
+      foto_url,
+    });
+
+    if (insertError) {
+      return { error: `Gagal menyimpan produk: ${insertError.message}` };
+    }
+  } catch (err) {
+    return { error: err.message || "Terjadi kesalahan saat menyimpan produk." };
+  }
+
+  // 4. Redirect kembali ke /admin setelah berhasil
+  redirect("/admin");
+}
