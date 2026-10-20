@@ -152,3 +152,56 @@ export async function tambahProduk(prevState, formData) {
   // 4. Redirect kembali ke /admin setelah berhasil
   redirect("/admin");
 }
+
+export async function ubahProduk(id, prevState, formData) {
+  // 1. Verifikasi login admin di server (US-09)
+  let supabase;
+  try {
+    supabase = await buatKlienSesiAdmin();
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    if (userError || !user) {
+      return { error: "Akses ditolak: silakan login sebagai admin terlebih dahulu." };
+    }
+  } catch (err) {
+    return { error: err.message || "Gagal memverifikasi sesi admin." };
+  }
+
+  // 2. Validasi id produk
+  const idAngka = parseInt(id, 10);
+  if (isNaN(idAngka)) {
+    return { error: "ID produk tidak valid." };
+  }
+
+  // 3. Ambil dan validasi input
+  const nama = formData?.get("nama")?.toString().trim();
+  const hargaRaw = formData?.get("harga")?.toString().trim();
+  const kategori = formData?.get("kategori")?.toString().trim() || null;
+  const deskripsi = formData?.get("deskripsi")?.toString().trim() || null;
+  const foto_url = formData?.get("foto_url")?.toString().trim() || null;
+
+  if (!nama) {
+    return { error: "Nama donat wajib diisi." };
+  }
+
+  const harga = parseInt(hargaRaw, 10);
+  if (isNaN(harga) || harga < 0) {
+    return { error: "Harga donat harus berupa angka valid (minimal 0)." };
+  }
+
+  // 4. Update baris di tabel 'produk'
+  try {
+    const { error: updateError } = await supabase
+      .from("produk")
+      .update({ nama, harga, kategori, deskripsi, foto_url })
+      .eq("id", idAngka);
+
+    if (updateError) {
+      return { error: `Gagal menyimpan perubahan: ${updateError.message}` };
+    }
+  } catch (err) {
+    return { error: err.message || "Terjadi kesalahan saat menyimpan perubahan." };
+  }
+
+  // 5. Redirect kembali ke /admin setelah berhasil
+  redirect("/admin");
+}

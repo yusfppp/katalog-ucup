@@ -146,7 +146,11 @@ STYLE UMUM
 - Spacing konsisten berbasis kelipatan 8px, padding section vertikal 64 sampai 96px
 - Layout max-width 1200px, grid responsif (mobile first), breakpoint 640, 768, 1024, 1280
 - Transisi halus 150 sampai 250ms ease pada hover, focus, dan active
-- Gunakan elemen dekoratif ringan bertema donat (bentuk lingkaran, sprinkle, wave divider antar section), jangan berlebihan
+- Gunakan elemen dekoratif r## US-09 Ubah Produk
+
+Baca kriteria US-09 di docs/user-stories.md.
+Kondisi saat ini: form ubah memakai cariProdukContoh (data contoh), tidak ada Server Action penyimpanan, dan halaman menampilkan CatatanBelumAktif "Simpan perubahan belum berfungsi".
+Tugas: ambil produk dari Supabase berdasarkan id (notFound() jika tidak ada), isi FormProduk (reuse, jangan duplikasi), buat Server Action update dengan cek sesi admin, redirect ke /admin setelah sukses, dan hapus CatatanBelumAktif serta cariProdukContoh.ingan bertema donat (bentuk lingkaran, sprinkle, wave divider antar section), jangan berlebihan
 - Gambar produk dengan rasio konsisten, rounded, dan lazy loading
 
 KOMPONEN BUTTON (satu komponen, banyak varian)
@@ -249,3 +253,22 @@ Tugas: buat Server Action (cek sesi admin) yang meng-insert ke tabel "produk" (n
 
 **Perbaikan:**
 - Tidak ada perbaikan / kendala: implementasi dan validasi build berjalan mulus.
+
+### US-09 Ubah produk
+
+**Prompt:**
+## US-09 Ubah Produk
+
+Baca kriteria US-09 di docs/user-stories.md.
+Kondisi saat ini: form ubah memakai cariProdukContoh (data contoh), tidak ada Server Action penyimpanan, dan halaman menampilkan CatatanBelumAktif "Simpan perubahan belum berfungsi".
+Tugas: ambil produk dari Supabase berdasarkan id (notFound() jika tidak ada), isi FormProduk (reuse, jangan duplikasi), buat Server Action update dengan cek sesi admin, redirect ke /admin setelah sukses, dan hapus CatatanBelumAktif serta cariProdukContoh.
+
+**Hasil:**
+- Membuat Server Action `ubahProduk(id, prevState, formData)` di `app/admin/actions.js` yang memeriksa sesi login admin di server, memvalidasi nama dan harga, lalu memperbarui baris di tabel `produk` via `.update().eq("id", idAngka)`.
+- Mengubah `app/admin/produk/[id]/ubah/page.jsx` menjadi async Server Component yang mengambil data produk dari Supabase dengan `buatKlienServer()`, memanggil `notFound()` jika produk tidak ada.
+- Me-reuse `FormProduk` yang sudah ada (tanpa duplikasi) dengan mem-bind action ubah menggunakan `ubahProduk.bind(null, id)` dan mengisi `produk` dengan data dari database.
+- Menghapus `cariProdukContoh` dari `lib/data-contoh` dan komponen `CatatanBelumAktif` dari halaman ubah produk.
+- Redirect ke `/admin` otomatis setelah perubahan tersimpan.
+
+**Perbaikan:**
+- Tidak ada perbaikan / kendala: build dan alur ubah produk berjalan lancar tanpa error.
