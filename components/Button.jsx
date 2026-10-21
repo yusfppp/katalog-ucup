@@ -117,6 +117,8 @@ export default function Button({
         className={combinedClasses}
         aria-label={ariaLabel}
         onClick={onClick}
+        target={target}
+        rel={target === "_blank" ? rel || "noopener noreferrer" : rel}
         {...props}
       >
         {content}

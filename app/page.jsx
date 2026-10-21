@@ -1,4 +1,15 @@
+import {
+  IconArrowRight,
+  IconBrandWhatsapp,
+  IconClock,
+  IconCookie,
+  IconMapPin,
+  IconSearch,
+  IconShoppingCart,
+  IconSpeakerphone,
+} from "@tabler/icons-react";
 import KartuProduk from "@/components/KartuProduk";
+import BintangRating from "@/components/BintangRating";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Pagination from "@/components/Pagination";
@@ -22,11 +33,6 @@ const URUTAN = [
   { label: "Termurah", value: "termurah" },
   { label: "Termahal", value: "termahal" },
 ];
-
-function bintang(rating) {
-  const nilai = Math.max(0, Math.min(5, Number(rating) || 0));
-  return "★".repeat(nilai) + "☆".repeat(5 - nilai);
-}
 
 export default async function HalamanKatalog({ searchParams }) {
   const params = await searchParams;
@@ -64,7 +70,7 @@ export default async function HalamanKatalog({ searchParams }) {
         <div className="mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-12 px-4 sm:px-6 lg:grid-cols-12">
           <div className="flex flex-col gap-6 text-center lg:col-span-7 lg:text-left">
             <span className="inline-flex items-center gap-2 self-center rounded-full border border-primary/20 bg-primary-soft px-4 py-1.5 shadow-sm lg:self-start">
-              <span className="text-base" aria-hidden="true">🍩</span>
+              <IconCookie size={17} stroke={1.9} aria-hidden="true" className="text-primary" />
               <span className="text-xs font-bold tracking-wide text-primary sm:text-sm">
                 {toko.jamBuka}
               </span>
@@ -79,7 +85,12 @@ export default async function HalamanKatalog({ searchParams }) {
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-4 pt-2 lg:justify-start">
-              <Button href="#katalog" variant="primary" size="lg" rightIcon={<span>👉</span>}>
+              <Button
+                href="#katalog"
+                variant="primary"
+                size="lg"
+                rightIcon={<IconArrowRight size={20} stroke={2} aria-hidden="true" />}
+              >
                 Lihat Katalog
               </Button>
               <Button
@@ -89,7 +100,7 @@ export default async function HalamanKatalog({ searchParams }) {
                 )}
                 variant="secondary"
                 size="lg"
-                leftIcon={<span>💬</span>}
+                leftIcon={<IconBrandWhatsapp size={20} stroke={1.9} aria-hidden="true" />}
               >
                 Tanya Admin
               </Button>
@@ -97,7 +108,7 @@ export default async function HalamanKatalog({ searchParams }) {
 
             <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 pt-4 text-xs font-semibold text-text-muted lg:justify-start">
               <span className="flex items-center gap-1.5">
-                <span className="text-accent">★★★★★</span> Ulasan dari pembeli
+                <BintangRating nilai={5} size={14} /> Ulasan dari pembeli
               </span>
               <span aria-hidden="true">•</span>
               <span>Pesan langsung via WhatsApp</span>
@@ -111,7 +122,7 @@ export default async function HalamanKatalog({ searchParams }) {
               <div className="absolute inset-0 -z-10 rounded-full bg-primary-soft/60" />
               <div className="absolute inset-4 -z-10 rounded-full border-2 border-dashed border-accent/40" />
               <div className="relative flex w-4/5 flex-col items-center justify-center gap-2 overflow-hidden rounded-[24px] border-2 border-border bg-surface p-6 text-center shadow-warm-lg">
-                <span className="text-7xl sm:text-8xl" aria-hidden="true">🍩</span>
+                <IconCookie size={84} stroke={1.4} aria-hidden="true" className="text-primary" />
                 <h2 className="font-heading text-xl font-bold text-secondary">Fresh Setiap Hari</h2>
                 <p className="text-xs text-text-muted">
                   Dibuat sesuai pesanan agar tekstur dan rasanya tetap nikmat.
@@ -142,8 +153,8 @@ export default async function HalamanKatalog({ searchParams }) {
                     loading="lazy"
                   />
                 ) : (
-                  <div className="flex h-24 items-center justify-center bg-primary-soft text-3xl">
-                    📢
+                  <div className="flex h-24 items-center justify-center bg-primary-soft text-primary">
+                    <IconSpeakerphone size={34} stroke={1.7} aria-hidden="true" />
                   </div>
                 )}
                 <div className="flex flex-1 flex-col gap-2 p-5">
@@ -193,7 +204,12 @@ export default async function HalamanKatalog({ searchParams }) {
               Halaman kategori
             </Button>
           )}
-          <Button href="/keranjang" variant="secondary" size="md" leftIcon={<span>🛒</span>}>
+          <Button
+            href="/keranjang"
+            variant="secondary"
+            size="md"
+            leftIcon={<IconShoppingCart size={19} stroke={1.9} aria-hidden="true" />}
+          >
             Buka Keranjang
           </Button>
         </div>
@@ -261,7 +277,7 @@ export default async function HalamanKatalog({ searchParams }) {
           </div>
         ) : daftarProduk.length === 0 ? (
           <div className="flex flex-col items-center gap-3 rounded-[20px] border-[1.5px] border-border bg-surface p-8 text-center shadow-warm sm:p-12">
-            <span className="text-5xl" aria-hidden="true">🔎</span>
+            <IconSearch size={52} stroke={1.5} aria-hidden="true" className="text-primary/70" />
             <p className="font-heading text-2xl font-bold text-secondary">
               {sedangDifilter ? "Produk tidak ditemukan" : "Belum ada produk"}
             </p>
@@ -320,11 +336,21 @@ export default async function HalamanKatalog({ searchParams }) {
             </p>
             <div className="space-y-2 pt-2 text-sm">
               <p className="flex items-start gap-2">
-                <span className="text-accent">📍</span>
+                <IconMapPin
+                  size={18}
+                  stroke={1.9}
+                  aria-hidden="true"
+                  className="mt-0.5 shrink-0 text-accent"
+                />
                 <span>{toko.alamat}</span>
               </p>
               <p className="flex items-center gap-2">
-                <span className="text-accent">⏰</span>
+                <IconClock
+                  size={18}
+                  stroke={1.9}
+                  aria-hidden="true"
+                  className="shrink-0 text-accent"
+                />
                 <span>{toko.jamBuka}</span>
               </p>
             </div>
@@ -338,7 +364,7 @@ export default async function HalamanKatalog({ searchParams }) {
               href={urlWhatsApp(nomorWA, `Halo ${toko.nama}! Saya ingin bertanya tentang produk.`)}
               variant="primary"
               size="md"
-              leftIcon={<span>💬</span>}
+              leftIcon={<IconBrandWhatsapp size={19} stroke={1.9} aria-hidden="true" />}
             >
               Chat Admin
             </Button>
@@ -370,9 +396,7 @@ export default async function HalamanKatalog({ searchParams }) {
                   key={item.id}
                   className="flex flex-col rounded-[20px] border-[1.5px] border-border bg-surface p-6 shadow-warm"
                 >
-                  <span className="text-lg text-accent" aria-label={`${item.rating} dari 5 bintang`}>
-                    {bintang(item.rating)}
-                  </span>
+                  <BintangRating nilai={item.rating} size={17} />
                   <p className="mt-3 flex-1 text-sm italic leading-relaxed text-text">
                     &ldquo;{item.komentar}&rdquo;
                   </p>
@@ -411,7 +435,7 @@ export default async function HalamanKatalog({ searchParams }) {
       <section className="mx-auto w-full max-w-[1200px] px-4 sm:px-6">
         <div className="relative overflow-hidden rounded-[24px] bg-primary px-6 py-14 text-center text-on-primary shadow-warm-lg sm:px-12 sm:py-16">
           <div className="relative z-10 mx-auto flex max-w-2xl flex-col items-center gap-6">
-            <span className="text-4xl" aria-hidden="true">🍩</span>
+            <IconCookie size={48} stroke={1.5} aria-hidden="true" className="text-on-primary/90" />
             <h2 className="font-heading text-3xl font-bold leading-tight text-on-primary sm:text-4xl">
               Siap memesan camilan favoritmu?
             </h2>
@@ -423,7 +447,12 @@ export default async function HalamanKatalog({ searchParams }) {
               <Button href="/#katalog" variant="contrast" size="lg">
                 Pilih Produk
               </Button>
-              <Button href="/keranjang" variant="secondary" size="lg" leftIcon={<span>🛒</span>}>
+              <Button
+                href="/keranjang"
+                variant="secondary"
+                size="lg"
+                leftIcon={<IconShoppingCart size={20} stroke={1.9} aria-hidden="true" />}
+              >
                 Lihat Keranjang
               </Button>
             </div>

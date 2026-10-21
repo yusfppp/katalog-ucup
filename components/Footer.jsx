@@ -1,3 +1,12 @@
+import {
+  IconArrowUp,
+  IconBrandInstagram,
+  IconBrandWhatsapp,
+  IconClock,
+  IconCookie,
+  IconLock,
+  IconMapPin,
+} from "@tabler/icons-react";
 import Button from "@/components/Button";
 import { TOKO_CADANGAN } from "@/lib/toko-cadangan";
 import { urlInstagram, urlWhatsApp } from "@/lib/format";
@@ -13,8 +22,8 @@ export default function Footer({ toko = TOKO_CADANGAN }) {
         <div className="grid grid-cols-1 gap-10 md:grid-cols-4 lg:gap-12">
           <div className="flex flex-col gap-4 md:col-span-2">
             <div className="flex items-center gap-2.5">
-              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-primary text-2xl shadow-md">
-                🍩
+              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-primary text-on-primary shadow-md">
+                <IconCookie size={26} stroke={1.8} aria-hidden="true" />
               </span>
               <div>
                 <span className="block font-heading text-3xl font-bold tracking-tight text-on-footer">
@@ -34,7 +43,7 @@ export default function Footer({ toko = TOKO_CADANGAN }) {
                 href={urlWhatsApp(nomorWA, pesan)}
                 variant="tertiary-light"
                 size="sm"
-                leftIcon={<span>💬</span>}
+                leftIcon={<IconBrandWhatsapp size={18} stroke={1.9} aria-hidden="true" />}
               >
                 WhatsApp
               </Button>
@@ -43,7 +52,7 @@ export default function Footer({ toko = TOKO_CADANGAN }) {
                   href={instagram}
                   variant="tertiary-light"
                   size="sm"
-                  leftIcon={<span>📸</span>}
+                  leftIcon={<IconBrandInstagram size={18} stroke={1.9} aria-hidden="true" />}
                 >
                   Instagram
                 </Button>
@@ -81,15 +90,30 @@ export default function Footer({ toko = TOKO_CADANGAN }) {
             </p>
             <div className="space-y-2 text-sm text-on-footer/90">
               <p className="flex items-start gap-2">
-                <span className="shrink-0 text-accent">📍</span>
+                <IconMapPin
+                  size={18}
+                  stroke={1.9}
+                  aria-hidden="true"
+                  className="mt-0.5 shrink-0 text-accent"
+                />
                 <span>{toko.alamat}</span>
               </p>
               <p className="flex items-center gap-2">
-                <span className="shrink-0 text-accent">⏰</span>
+                <IconClock
+                  size={18}
+                  stroke={1.9}
+                  aria-hidden="true"
+                  className="shrink-0 text-accent"
+                />
                 <span>{toko.jamBuka}</span>
               </p>
               <p className="flex items-center gap-2">
-                <span className="shrink-0 text-accent">💬</span>
+                <IconBrandWhatsapp
+                  size={18}
+                  stroke={1.9}
+                  aria-hidden="true"
+                  className="shrink-0 text-accent"
+                />
                 <span>{nomorWA}</span>
               </p>
             </div>
@@ -98,7 +122,7 @@ export default function Footer({ toko = TOKO_CADANGAN }) {
                 href="/admin"
                 variant="secondary"
                 size="sm"
-                leftIcon={<span>🔐</span>}
+                leftIcon={<IconLock size={17} stroke={1.9} aria-hidden="true" />}
               >
                 Masuk Admin Toko
               </Button>
@@ -110,8 +134,14 @@ export default function Footer({ toko = TOKO_CADANGAN }) {
           <p>
             © {new Date().getFullYear()} {toko.nama}. Semua hak dilindungi.
           </p>
-          <Button href="/" variant="tertiary-light" size="sm" className="!h-8 !text-xs">
-            Kembali ke Atas ↑
+          <Button
+            href="/"
+            variant="tertiary-light"
+            size="sm"
+            className="!h-8 !text-xs"
+            rightIcon={<IconArrowUp size={14} stroke={2} aria-hidden="true" />}
+          >
+            Kembali ke Atas
           </Button>
         </div>
       </div>

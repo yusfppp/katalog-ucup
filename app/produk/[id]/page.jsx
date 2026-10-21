@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
+import { IconArrowLeft, IconMessageCircle } from "@tabler/icons-react";
 import Button from "@/components/Button";
+import BintangRating from "@/components/BintangRating";
 import KartuProduk from "@/components/KartuProduk";
 import GaleriProduk from "@/components/GaleriProduk";
 import PanelProduk from "@/components/PanelProduk";
@@ -15,11 +17,6 @@ import {
 import { formatTanggal, potongTeks } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
-
-function bintang(rating) {
-  const nilai = Math.max(0, Math.min(5, Math.round(Number(rating) || 0)));
-  return "★".repeat(nilai) + "☆".repeat(5 - nilai);
-}
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
@@ -73,7 +70,12 @@ export default async function HalamanDetailProduk({ params }) {
       <CatatTerakhirDilihat id={produk.id} />
 
       <div>
-        <Button href="/#katalog" variant="tertiary" size="sm" leftIcon={<span>←</span>}>
+        <Button
+          href="/#katalog"
+          variant="tertiary"
+          size="sm"
+          leftIcon={<IconArrowLeft size={17} stroke={2} aria-hidden="true" />}
+        >
           Kembali ke Katalog
         </Button>
       </div>
@@ -97,8 +99,9 @@ export default async function HalamanDetailProduk({ params }) {
               </p>
             </div>
             {ulasan.jumlah > 0 && (
-              <span className="rounded-full bg-primary-soft px-3 py-1 text-sm font-bold text-primary">
-                {bintang(ulasan.rataRata)} {ulasan.rataRata}
+              <span className="flex items-center gap-1.5 rounded-full bg-primary-soft px-3 py-1 text-sm font-bold text-primary">
+                <BintangRating nilai={ulasan.rataRata} size={14} />
+                {ulasan.rataRata}
               </span>
             )}
           </div>
@@ -115,12 +118,7 @@ export default async function HalamanDetailProduk({ params }) {
                       <p className="font-heading text-base font-bold text-secondary">{item.nama}</p>
                       <p className="text-xs text-text-muted">{formatTanggal(item.created_at)}</p>
                     </div>
-                    <span
-                      className="text-sm text-accent"
-                      aria-label={`${item.rating} dari 5 bintang`}
-                    >
-                      {bintang(item.rating)}
-                    </span>
+                    <BintangRating nilai={item.rating} size={14} />
                   </div>
                   <p className="mt-2 whitespace-pre-line text-sm text-text">{item.komentar}</p>
                 </article>
@@ -128,7 +126,12 @@ export default async function HalamanDetailProduk({ params }) {
             </div>
           ) : (
             <div className="rounded-[20px] border-[1.5px] border-border bg-surface p-8 text-center shadow-warm">
-              <span className="text-4xl" aria-hidden="true">💬</span>
+              <IconMessageCircle
+                size={42}
+                stroke={1.6}
+                aria-hidden="true"
+                className="mx-auto text-primary/70"
+              />
               <p className="mt-2 font-heading text-xl font-bold text-secondary">
                 Jadilah yang pertama mengulas
               </p>

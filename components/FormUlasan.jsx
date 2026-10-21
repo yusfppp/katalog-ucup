@@ -6,7 +6,7 @@ import Button from "@/components/Button";
 import { kirimUlasan } from "@/lib/actions/publik";
 
 const OPSI_RATING = [5, 4, 3, 2, 1].map((nilai) => ({
-  label: `${"★".repeat(nilai)}${"☆".repeat(5 - nilai)} (${nilai})`,
+  label: `${nilai} bintang`,
   value: String(nilai),
 }));
 

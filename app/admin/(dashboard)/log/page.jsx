@@ -1,4 +1,4 @@
-import NavAdmin from "@/components/NavAdmin";
+import { IconNotebook } from "@tabler/icons-react";
 import Pagination from "@/components/Pagination";
 import { wajibAdmin } from "@/lib/auth";
 import { buatKlienServer } from "@/lib/supabase/server";
@@ -36,8 +36,7 @@ export default async function HalamanLog({ searchParams }) {
   }
 
   return (
-    <div className="mx-auto flex max-w-[1200px] flex-col gap-8 px-4 py-8 sm:px-6">
-      <NavAdmin />
+    <div className="flex flex-col gap-8">
       <div>
         <h1 className="font-heading text-3xl font-bold text-secondary sm:text-4xl">
           Log Aktivitas Admin
@@ -56,9 +55,12 @@ export default async function HalamanLog({ searchParams }) {
         </div>
       ) : daftar.length === 0 ? (
         <div className="rounded-[20px] border-[1.5px] border-border bg-surface p-10 text-center shadow-warm">
-          <span aria-hidden="true" className="text-5xl">
-            📝
-          </span>
+          <IconNotebook
+            size={44}
+            stroke={1.6}
+            aria-hidden="true"
+            className="mx-auto text-primary/70"
+          />
           <h2 className="mt-3 font-heading text-2xl font-bold text-secondary">Belum ada log</h2>
           <p className="mt-1 text-sm text-text-muted">
             Log akan tercatat otomatis saat admin mengubah data.

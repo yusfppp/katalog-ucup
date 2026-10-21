@@ -2,18 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { IconStar } from "@tabler/icons-react";
 import Button from "@/components/Button";
+import BintangRating from "@/components/BintangRating";
 import { formatTanggal } from "@/lib/format";
 import { hapusUlasan, ubahStatusUlasan } from "@/lib/actions/ulasan-admin";
-
-function Bintang({ rating }) {
-  return (
-    <span aria-label={`${rating} dari 5 bintang`} className="text-sm text-accent">
-      {"★".repeat(rating)}
-      <span className="text-border">{"★".repeat(5 - rating)}</span>
-    </span>
-  );
-}
 
 export default function TabelUlasan({ daftarUlasan = [] }) {
   const router = useRouter();
@@ -57,9 +50,7 @@ export default function TabelUlasan({ daftarUlasan = [] }) {
 
       {daftarUlasan.length === 0 ? (
         <div className="rounded-[20px] border-[1.5px] border-border bg-surface p-8 text-center shadow-warm">
-          <span aria-hidden="true" className="text-4xl">
-            ⭐
-          </span>
+          <IconStar size={40} stroke={1.6} aria-hidden="true" className="text-accent" />
           <p className="mt-2 font-heading text-xl font-bold text-secondary">Belum ada ulasan</p>
           <p className="mt-1 text-sm text-text-muted">
             Ulasan dari pengunjung akan muncul di sini untuk dimoderasi.
@@ -76,7 +67,7 @@ export default function TabelUlasan({ daftarUlasan = [] }) {
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
                     <h3 className="font-heading text-lg font-bold text-secondary">{ulasan.nama}</h3>
-                    <Bintang rating={Number(ulasan.rating) || 0} />
+                    <BintangRating nilai={Number(ulasan.rating) || 0} size={15} />
                     <span
                       className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${
                         ulasan.tampil

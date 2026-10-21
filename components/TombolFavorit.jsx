@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@/components/Button";
+import { IconHeart, IconHeartFilled } from "@tabler/icons-react";
 import { useFavorit } from "@/components/useFavorit";
 
 export default function TombolFavorit({
@@ -24,7 +25,11 @@ export default function TombolFavorit({
       aria-pressed={siap ? aktif : undefined}
       title={aktif ? "Hapus dari favorit" : "Simpan ke favorit"}
     >
-      <span aria-hidden="true">{aktif ? "❤️" : "🤍"}</span>
+      {aktif ? (
+        <IconHeartFilled size={18} aria-hidden="true" />
+      ) : (
+        <IconHeart size={18} stroke={1.9} aria-hidden="true" />
+      )}
       {tampilTeks && <span>{aktif ? "Tersimpan di favorit" : "Simpan favorit"}</span>}
     </Button>
   );

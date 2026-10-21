@@ -1,3 +1,4 @@
+import { IconWifiOff } from "@tabler/icons-react";
 import Button from "@/components/Button";
 
 export const metadata = {
@@ -8,7 +9,7 @@ export const metadata = {
 export default function HalamanOffline() {
   return (
     <div className="mx-auto flex max-w-[1200px] flex-col items-center gap-4 px-4 py-20 text-center sm:px-6">
-      <span className="text-7xl" aria-hidden="true">📡</span>
+      <IconWifiOff size={64} stroke={1.4} aria-hidden="true" className="text-primary/70" />
       <h1 className="font-heading text-3xl font-bold text-secondary sm:text-4xl">
         Kamu sedang offline
       </h1>

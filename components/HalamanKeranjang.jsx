@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { IconBrandWhatsapp, IconShoppingCart } from "@tabler/icons-react";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { useKeranjang } from "@/components/KeranjangProvider";
@@ -93,7 +94,7 @@ export default function HalamanKeranjang({ toko }) {
     return (
       <div className="mx-auto flex max-w-[1200px] flex-col gap-6 px-4 py-10 sm:px-6 md:py-16">
         <div className="mx-auto flex max-w-xl flex-col items-center gap-4 rounded-[24px] border-[1.5px] border-border bg-surface p-8 text-center shadow-warm sm:p-12">
-          <span className="text-6xl" aria-hidden="true">🛒</span>
+          <IconShoppingCart size={58} stroke={1.4} aria-hidden="true" className="text-primary/70" />
           <h1 className="font-heading text-3xl font-bold text-secondary">Keranjang masih kosong</h1>
           <p className="text-sm text-text-muted">
             Pilih produk favoritmu di katalog, lalu tambahkan ke keranjang.
@@ -249,7 +250,7 @@ export default function HalamanKeranjang({ toko }) {
             fullWidth
             onClick={pesanWhatsApp}
             disabled={adaMasalah}
-            leftIcon={<span>💬</span>}
+            leftIcon={<IconBrandWhatsapp size={19} stroke={1.9} aria-hidden="true" />}
           >
             Pesan Semua via WhatsApp
           </Button>

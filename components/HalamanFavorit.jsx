@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { IconHeart } from "@tabler/icons-react";
 import Button from "@/components/Button";
 import KartuProduk from "@/components/KartuProduk";
 import { useDaftarFavorit } from "@/components/useFavorit";
@@ -84,7 +85,7 @@ export default function HalamanFavorit() {
 
       {daftar.length === 0 ? (
         <div className="mx-auto flex max-w-xl flex-col items-center gap-3 rounded-[24px] border-[1.5px] border-border bg-surface p-8 text-center shadow-warm sm:p-12">
-          <span className="text-6xl" aria-hidden="true">🤍</span>
+          <IconHeart size={56} stroke={1.5} aria-hidden="true" className="text-primary/70" />
           <h2 className="font-heading text-2xl font-bold text-secondary">
             Belum ada produk favorit
           </h2>

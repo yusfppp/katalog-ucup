@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { IconBrandWhatsapp, IconLink, IconShoppingCart } from "@tabler/icons-react";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import TombolFavorit from "@/components/TombolFavorit";
@@ -189,7 +190,7 @@ export default function PanelProduk({ produk, toko }) {
           size="lg"
           onClick={tambahKeKeranjang}
           disabled={habis}
-          leftIcon={<span>🛒</span>}
+          leftIcon={<IconShoppingCart size={19} stroke={1.9} aria-hidden="true" />}
         >
           {habis ? "Stok Habis" : "Tambah ke Keranjang"}
         </Button>
@@ -199,7 +200,7 @@ export default function PanelProduk({ produk, toko }) {
           size="lg"
           onClick={pesanWhatsApp}
           disabled={habis}
-          leftIcon={<span>💬</span>}
+          leftIcon={<IconBrandWhatsapp size={19} stroke={1.9} aria-hidden="true" />}
         >
           Pesan via WhatsApp
         </Button>
@@ -208,8 +209,14 @@ export default function PanelProduk({ produk, toko }) {
       <div className="flex flex-wrap gap-2">
         <TombolFavorit id={produk.id} nama={produk.nama} tampilTeks size="sm" />
         <TombolBandingkan id={produk.id} nama={produk.nama} tampilTeks size="sm" />
-        <Button type="button" variant="tertiary" size="sm" onClick={bagikan}>
-          🔗 Bagikan
+        <Button
+          type="button"
+          variant="tertiary"
+          size="sm"
+          onClick={bagikan}
+          leftIcon={<IconLink size={17} stroke={1.9} aria-hidden="true" />}
+        >
+          Bagikan
         </Button>
       </div>
 

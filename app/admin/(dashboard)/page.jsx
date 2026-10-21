@@ -1,4 +1,13 @@
-import NavAdmin from "@/components/NavAdmin";
+import {
+  IconCircleCheck,
+  IconCookie,
+  IconEyeOff,
+  IconFileExport,
+  IconFileImport,
+  IconPackage,
+  IconPlus,
+  IconStar,
+} from "@tabler/icons-react";
 import TabelProduk from "@/components/TabelProduk";
 import Pagination from "@/components/Pagination";
 import Input from "@/components/Input";
@@ -10,10 +19,10 @@ import { formatAngka } from "@/lib/format";
 export const dynamic = "force-dynamic";
 
 const kartuRingkasan = [
-  { kunci: "total", label: "Total Produk", ikon: "🍩", warna: "text-primary" },
-  { kunci: "aktif", label: "Produk Aktif", ikon: "✅", warna: "text-success" },
-  { kunci: "nonaktif", label: "Produk Nonaktif", ikon: "🙈", warna: "text-error" },
-  { kunci: "ulasan", label: "Total Ulasan", ikon: "⭐", warna: "text-accent" },
+  { kunci: "total", label: "Total Produk", ikon: IconPackage, warna: "text-primary" },
+  { kunci: "aktif", label: "Produk Aktif", ikon: IconCircleCheck, warna: "text-success" },
+  { kunci: "nonaktif", label: "Produk Nonaktif", ikon: IconEyeOff, warna: "text-error" },
+  { kunci: "ulasan", label: "Total Ulasan", ikon: IconStar, warna: "text-accent" },
 ];
 
 export default async function HalamanAdmin({ searchParams }) {
@@ -30,9 +39,7 @@ export default async function HalamanAdmin({ searchParams }) {
   ]);
 
   return (
-    <div className="mx-auto flex max-w-[1200px] flex-col gap-8 px-4 py-8 sm:px-6">
-      <NavAdmin />
-
+    <div className="flex flex-col gap-8">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 className="font-heading text-3xl font-bold text-secondary sm:text-4xl">
@@ -43,13 +50,28 @@ export default async function HalamanAdmin({ searchParams }) {
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Button href="/admin/produk/baru" variant="primary" size="md" leftIcon={<span aria-hidden="true">➕</span>}>
+          <Button
+            href="/admin/produk/baru"
+            variant="primary"
+            size="md"
+            leftIcon={<IconPlus size={18} stroke={2.2} aria-hidden="true" />}
+          >
             Tambah Produk
           </Button>
-          <Button href="/admin/impor" variant="secondary" size="md" leftIcon={<span aria-hidden="true">📥</span>}>
+          <Button
+            href="/admin/impor"
+            variant="secondary"
+            size="md"
+            leftIcon={<IconFileImport size={18} stroke={1.9} aria-hidden="true" />}
+          >
             Impor CSV
           </Button>
-          <Button href="/admin/ekspor" variant="secondary" size="md" leftIcon={<span aria-hidden="true">📤</span>}>
+          <Button
+            href="/admin/ekspor"
+            variant="secondary"
+            size="md"
+            leftIcon={<IconFileExport size={18} stroke={1.9} aria-hidden="true" />}
+          >
             Ekspor CSV
           </Button>
         </div>
@@ -79,24 +101,30 @@ export default async function HalamanAdmin({ searchParams }) {
           Ringkasan toko
         </h2>
         <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-          {kartuRingkasan.map((kartu) => (
-            <div
-              key={kartu.kunci}
-              className="rounded-[20px] border-[1.5px] border-border bg-surface p-4 shadow-warm sm:p-5"
-            >
-              <div className="flex items-center justify-between gap-2">
-                <p className="text-xs font-bold uppercase tracking-wide text-text-muted">
-                  {kartu.label}
+          {kartuRingkasan.map((kartu) => {
+            const Ikon = kartu.ikon;
+            return (
+              <div
+                key={kartu.kunci}
+                className="rounded-[20px] border-[1.5px] border-border bg-surface p-4 shadow-warm sm:p-5"
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <p className="text-xs font-bold uppercase tracking-wide text-text-muted">
+                    {kartu.label}
+                  </p>
+                  <span
+                    aria-hidden="true"
+                    className={`flex h-9 w-9 items-center justify-center rounded-xl bg-bg/70 ${kartu.warna}`}
+                  >
+                    <Ikon size={19} stroke={1.9} />
+                  </span>
+                </div>
+                <p className={`mt-2 font-heading text-3xl font-bold sm:text-4xl ${kartu.warna}`}>
+                  {formatAngka(ringkasan[kartu.kunci] || 0)}
                 </p>
-                <span aria-hidden="true" className="text-xl">
-                  {kartu.ikon}
-                </span>
               </div>
-              <p className={`mt-2 font-heading text-3xl font-bold sm:text-4xl ${kartu.warna}`}>
-                {formatAngka(ringkasan[kartu.kunci] || 0)}
-              </p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
@@ -213,9 +241,7 @@ export default async function HalamanAdmin({ searchParams }) {
           </div>
         ) : daftar.data.length === 0 ? (
           <div className="flex flex-col items-center gap-4 rounded-[20px] border-[1.5px] border-border bg-surface p-10 text-center shadow-warm">
-            <span aria-hidden="true" className="text-5xl">
-              🍩
-            </span>
+            <IconCookie size={54} stroke={1.4} aria-hidden="true" className="text-primary/70" />
             <div>
               <h3 className="font-heading text-2xl font-bold text-secondary">
                 {q ? "Produk tidak ditemukan" : "Belum ada produk"}

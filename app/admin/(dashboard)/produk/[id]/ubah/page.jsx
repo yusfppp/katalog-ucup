@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import NavAdmin from "@/components/NavAdmin";
 import FormProduk from "@/components/FormProduk";
 import { wajibAdmin } from "@/lib/auth";
 import { ambilKategoriPublik, ambilProdukAdminById } from "@/lib/produk";
@@ -23,8 +22,7 @@ export default async function HalamanUbahProduk({ params }) {
   const actionUbah = ubahProduk.bind(null, id);
 
   return (
-    <div className="mx-auto flex max-w-[1200px] flex-col gap-6 px-4 py-8 sm:px-6">
-      <NavAdmin />
+    <div className="flex flex-col gap-6">
       <div>
         <h1 className="font-heading text-3xl font-bold text-secondary">Ubah Donat</h1>
         <p className="mt-1 text-sm text-text-muted">

@@ -1,4 +1,3 @@
-import NavAdmin from "@/components/NavAdmin";
 import FormAkun from "@/components/FormAkun";
 import TabelAkun from "@/components/TabelAkun";
 import { wajibAdmin } from "@/lib/auth";
@@ -38,9 +37,7 @@ export default async function HalamanAkun() {
   }
 
   return (
-    <div className="mx-auto flex max-w-[1200px] flex-col gap-8 px-4 py-8 sm:px-6">
-      <NavAdmin />
-
+    <div className="flex flex-col gap-8">
       <div>
         <h1 className="font-heading text-3xl font-bold text-secondary sm:text-4xl">Kelola Akun Admin</h1>
         <p className="mt-1 text-sm text-text-muted">

@@ -1,3 +1,10 @@
+import {
+  IconBrandInstagram,
+  IconBrandWhatsapp,
+  IconClock,
+  IconCookie,
+  IconMapPin,
+} from "@tabler/icons-react";
 import Button from "@/components/Button";
 import { ambilPengaturan } from "@/lib/toko";
 import { urlInstagram, urlWhatsApp } from "@/lib/format";
@@ -16,8 +23,8 @@ export default async function HalamanTentang() {
   return (
     <div className="mx-auto flex max-w-[1200px] flex-col gap-10 px-4 py-10 sm:px-6 md:py-16">
       <header className="flex flex-col items-center gap-4 text-center">
-        <span className="flex h-20 w-20 items-center justify-center rounded-full bg-primary-soft text-5xl shadow-inner">
-          🍩
+        <span className="flex h-20 w-20 items-center justify-center rounded-full bg-primary-soft text-primary shadow-inner">
+          <IconCookie size={42} stroke={1.5} aria-hidden="true" />
         </span>
         <span className="rounded-full bg-primary-soft px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-primary">
           Tentang Kami
@@ -43,11 +50,17 @@ export default async function HalamanTentang() {
 
           <div className="grid gap-3 pt-2 sm:grid-cols-2">
             <div className="rounded-xl bg-primary-soft/60 p-4">
-              <p className="text-xs font-bold uppercase tracking-wider text-primary">Alamat</p>
+              <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-primary">
+                <IconMapPin size={15} stroke={2} aria-hidden="true" />
+                Alamat
+              </p>
               <p className="mt-1 text-sm text-text">{toko.alamat}</p>
             </div>
             <div className="rounded-xl bg-primary-soft/60 p-4">
-              <p className="text-xs font-bold uppercase tracking-wider text-primary">Jam Buka</p>
+              <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-primary">
+                <IconClock size={15} stroke={2} aria-hidden="true" />
+                Jam Buka
+              </p>
               <p className="mt-1 text-sm text-text">{toko.jamBuka}</p>
             </div>
           </div>
@@ -59,14 +72,16 @@ export default async function HalamanTentang() {
             Cara paling cepat adalah lewat WhatsApp. Admin akan membalas saat jam operasional.
           </p>
           <div className="rounded-xl border border-border/60 bg-bg/60 p-4">
-            <p className="text-xs font-bold uppercase tracking-wider text-text-muted">
+            <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-text-muted">
+              <IconBrandWhatsapp size={14} stroke={2} aria-hidden="true" />
               WhatsApp
             </p>
             <p className="font-heading text-xl font-bold text-secondary">{nomorWA}</p>
           </div>
           {toko.instagram && (
             <div className="rounded-xl border border-border/60 bg-bg/60 p-4">
-              <p className="text-xs font-bold uppercase tracking-wider text-text-muted">
+              <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-text-muted">
+                <IconBrandInstagram size={14} stroke={2} aria-hidden="true" />
                 Instagram
               </p>
               <p className="font-heading text-xl font-bold text-secondary">@{toko.instagram.replace(/^@/, "")}</p>
@@ -78,7 +93,7 @@ export default async function HalamanTentang() {
             variant="primary"
             size="lg"
             fullWidth
-            leftIcon={<span>💬</span>}
+            leftIcon={<IconBrandWhatsapp size={20} stroke={1.9} aria-hidden="true" />}
           >
             Chat WhatsApp
           </Button>

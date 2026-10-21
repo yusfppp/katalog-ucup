@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import { IconAlertTriangle, IconPlus, IconSparkles } from "@tabler/icons-react";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 import { tambahProduk, buatDeskripsiAI } from "@/lib/actions/produk";
@@ -84,7 +85,12 @@ export default function FormProduk({
           role="alert"
           className="flex items-start gap-2 rounded-xl border border-error/30 bg-error/10 p-3.5 text-sm font-semibold text-error"
         >
-          <span aria-hidden="true">⚠️</span>
+          <IconAlertTriangle
+            size={18}
+            stroke={2}
+            aria-hidden="true"
+            className="mt-0.5 shrink-0"
+          />
           <span>{state.error}</span>
         </div>
       )}
@@ -203,7 +209,7 @@ export default function FormProduk({
             loading={aiLoading}
             disabled={isPending || aiLoading}
             onClick={buatDeskripsi}
-            leftIcon={<span aria-hidden="true">✨</span>}
+            leftIcon={<IconSparkles size={17} stroke={1.9} aria-hidden="true" />}
           >
             {aiLoading ? "Membuat deskripsi..." : "Buat deskripsi dengan AI"}
           </Button>
@@ -309,7 +315,7 @@ export default function FormProduk({
             size="sm"
             onClick={tambahBarisVarian}
             disabled={isPending || varian.length >= 20}
-            leftIcon={<span aria-hidden="true">➕</span>}
+            leftIcon={<IconPlus size={17} stroke={2.2} aria-hidden="true" />}
           >
             Tambah varian
           </Button>

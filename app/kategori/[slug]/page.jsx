@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { IconArrowLeft, IconSearch } from "@tabler/icons-react";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import KartuProduk from "@/components/KartuProduk";
@@ -57,7 +58,12 @@ export default async function HalamanKategori({ params, searchParams }) {
   return (
     <div className="mx-auto flex max-w-[1200px] flex-col gap-8 px-4 py-10 sm:px-6 md:py-14">
       <div>
-        <Button href="/#katalog" variant="tertiary" size="sm" leftIcon={<span>←</span>}>
+        <Button
+          href="/#katalog"
+          variant="tertiary"
+          size="sm"
+          leftIcon={<IconArrowLeft size={17} stroke={2} aria-hidden="true" />}
+        >
           Kembali ke Katalog
         </Button>
       </div>
@@ -108,7 +114,7 @@ export default async function HalamanKategori({ params, searchParams }) {
           </div>
         ) : produkRes.data.length === 0 ? (
           <div className="flex flex-col items-center gap-3 rounded-[20px] border-[1.5px] border-border bg-surface p-10 text-center shadow-warm">
-            <span className="text-5xl" aria-hidden="true">🔎</span>
+            <IconSearch size={52} stroke={1.5} aria-hidden="true" className="text-primary/70" />
             <p className="font-heading text-2xl font-bold text-secondary">
               {kataKunci ? "Produk tidak ditemukan" : "Belum ada produk di kategori ini"}
             </p>

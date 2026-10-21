@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { IconScale } from "@tabler/icons-react";
 import Button from "@/components/Button";
 import { useBandingkan } from "@/components/useBandingkan";
 
@@ -32,7 +33,7 @@ export default function TombolBandingkan({
         aria-pressed={siap ? aktif : undefined}
         title={aktif ? "Hapus dari perbandingan" : "Bandingkan produk ini"}
       >
-        <span aria-hidden="true">⚖️</span>
+        <IconScale size={18} stroke={1.9} aria-hidden="true" />
         {tampilTeks && <span>{aktif ? "Dalam perbandingan" : "Bandingkan"}</span>}
       </Button>
       <span className="sr-only" role="status" aria-live="polite">

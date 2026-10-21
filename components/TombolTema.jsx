@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { IconMoon, IconSun } from "@tabler/icons-react";
 import Button from "@/components/Button";
 import { KUNCI_SIMPAN } from "@/lib/penyimpanan";
 
@@ -40,7 +41,11 @@ export default function TombolTema({ size = "sm" }) {
       aria-label={gelap ? "Aktifkan mode terang" : "Aktifkan mode gelap"}
       title={gelap ? "Mode terang" : "Mode gelap"}
     >
-      <span aria-hidden="true">{gelap ? "☀️" : "🌙"}</span>
+      {gelap ? (
+        <IconSun size={18} stroke={1.9} aria-hidden="true" />
+      ) : (
+        <IconMoon size={18} stroke={1.9} aria-hidden="true" />
+      )}
     </Button>
   );
 }

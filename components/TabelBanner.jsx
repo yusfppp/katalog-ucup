@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { IconSpeakerphone } from "@tabler/icons-react";
 import Button from "@/components/Button";
 import { formatTanggal } from "@/lib/format";
 import { hapusBanner, ubahStatusBanner } from "@/lib/actions/banner";
@@ -47,9 +48,12 @@ export default function TabelBanner({ daftarBanner = [] }) {
 
       {daftarBanner.length === 0 ? (
         <div className="rounded-[20px] border-[1.5px] border-border bg-surface p-8 text-center shadow-warm">
-          <span aria-hidden="true" className="text-4xl">
-            📢
-          </span>
+          <IconSpeakerphone
+            size={40}
+            stroke={1.6}
+            aria-hidden="true"
+            className="text-primary/70"
+          />
           <p className="mt-2 font-heading text-xl font-bold text-secondary">Belum ada banner</p>
           <p className="mt-1 text-sm text-text-muted">
             Tambahkan banner promo agar beranda lebih hidup.
@@ -70,8 +74,8 @@ export default function TabelBanner({ daftarBanner = [] }) {
                   className="h-20 w-full rounded-xl object-cover sm:w-32"
                 />
               ) : (
-                <div className="flex h-20 w-full items-center justify-center rounded-xl bg-primary-soft text-3xl sm:w-32">
-                  📢
+                <div className="flex h-20 w-full items-center justify-center rounded-xl bg-primary-soft text-primary sm:w-32">
+                  <IconSpeakerphone size={30} stroke={1.7} aria-hidden="true" />
                 </div>
               )}
               <div className="flex-1">

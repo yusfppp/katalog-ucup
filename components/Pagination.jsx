@@ -1,3 +1,4 @@
+import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import Button from "@/components/Button";
 
 function daftarNomor(halaman, totalHalaman) {
@@ -54,12 +55,23 @@ export default function Pagination({
       </p>
       <div className="flex flex-wrap items-center justify-center gap-2">
         {sekarang > 1 ? (
-          <Button href={buatHref(sekarang - 1)} variant="secondary" size="sm">
-            ← Sebelumnya
+          <Button
+            href={buatHref(sekarang - 1)}
+            variant="secondary"
+            size="sm"
+            leftIcon={<IconChevronLeft size={16} stroke={2.2} aria-hidden="true" />}
+          >
+            Sebelumnya
           </Button>
         ) : (
-          <Button variant="secondary" size="sm" disabled aria-label="Halaman sebelumnya tidak tersedia">
-            ← Sebelumnya
+          <Button
+            variant="secondary"
+            size="sm"
+            disabled
+            aria-label="Halaman sebelumnya tidak tersedia"
+            leftIcon={<IconChevronLeft size={16} stroke={2.2} aria-hidden="true" />}
+          >
+            Sebelumnya
           </Button>
         )}
 
@@ -83,12 +95,23 @@ export default function Pagination({
         )}
 
         {sekarang < totalHalaman ? (
-          <Button href={buatHref(sekarang + 1)} variant="secondary" size="sm">
-            Berikutnya →
+          <Button
+            href={buatHref(sekarang + 1)}
+            variant="secondary"
+            size="sm"
+            rightIcon={<IconChevronRight size={16} stroke={2.2} aria-hidden="true" />}
+          >
+            Berikutnya
           </Button>
         ) : (
-          <Button variant="secondary" size="sm" disabled aria-label="Halaman berikutnya tidak tersedia">
-            Berikutnya →
+          <Button
+            variant="secondary"
+            size="sm"
+            disabled
+            aria-label="Halaman berikutnya tidak tersedia"
+            rightIcon={<IconChevronRight size={16} stroke={2.2} aria-hidden="true" />}
+          >
+            Berikutnya
           </Button>
         )}
       </div>

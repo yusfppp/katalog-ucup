@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { IconCookie, IconMenu2, IconShoppingCart, IconX } from "@tabler/icons-react";
 import Button from "@/components/Button";
 import TombolTema from "@/components/TombolTema";
 import { useKeranjang } from "@/components/KeranjangProvider";
@@ -30,8 +31,8 @@ export default function Header({ toko = TOKO_CADANGAN }) {
           aria-label={`Kembali ke beranda ${toko.nama}`}
         >
           <div className="flex items-center gap-2">
-            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-soft text-xl shadow-inner transition-transform group-hover:scale-105">
-              🍩
+            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-soft text-primary shadow-inner transition-transform group-hover:scale-105">
+              <IconCookie size={24} stroke={1.8} aria-hidden="true" />
             </span>
             <div className="text-left">
               <span className="block font-heading text-2xl font-bold leading-none tracking-tight text-primary">
@@ -63,7 +64,7 @@ export default function Header({ toko = TOKO_CADANGAN }) {
             aria-label={`Keranjang belanja, ${jumlah} item`}
             title="Keranjang"
           >
-            <span aria-hidden="true">🛒</span>
+            <IconShoppingCart size={18} stroke={1.9} aria-hidden="true" />
             <span className="hidden sm:inline">Keranjang</span>
             {jumlah > 0 && (
               <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-on-primary">
@@ -82,13 +83,9 @@ export default function Header({ toko = TOKO_CADANGAN }) {
               aria-expanded={menuTerbuka}
             >
               {menuTerbuka ? (
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                <IconX size={23} stroke={2.2} aria-hidden="true" />
               ) : (
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16m-7 6h7" />
-                </svg>
+                <IconMenu2 size={23} stroke={2.2} aria-hidden="true" />
               )}
             </Button>
           </div>
@@ -117,9 +114,10 @@ export default function Header({ toko = TOKO_CADANGAN }) {
                 variant="primary"
                 size="md"
                 fullWidth
+                leftIcon={<IconShoppingCart size={18} stroke={1.9} aria-hidden="true" />}
                 onClick={() => setMenuTerbuka(false)}
               >
-                🛒 Buka Keranjang
+                Buka Keranjang
               </Button>
             </div>
           </nav>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+import { IconCirclePlus, IconQuestionMark, IconScale } from "@tabler/icons-react";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { useDaftarBandingkan } from "@/components/useBandingkan";
@@ -70,7 +71,7 @@ export default function HalamanBandingkan({ daftarProduk = [] }) {
         <div className="h-64 animate-pulse rounded-[20px] bg-border/50" />
       ) : ids.length === 0 ? (
         <div className="flex flex-col items-center gap-3 rounded-[24px] border-[1.5px] border-border bg-surface p-8 text-center shadow-warm sm:p-12">
-          <span className="text-6xl" aria-hidden="true">⚖️</span>
+          <IconScale size={56} stroke={1.5} aria-hidden="true" className="text-primary/70" />
           <p className="font-heading text-2xl font-bold text-secondary">Belum ada produk dipilih</p>
           <p className="max-w-md text-sm text-text-muted">
             Gunakan pilihan di atas atau tombol timbangan pada kartu produk untuk memulai
@@ -165,7 +166,12 @@ export default function HalamanBandingkan({ daftarProduk = [] }) {
                     </>
                   ) : (
                     <div className="flex flex-1 flex-col items-center justify-center gap-2 p-8 text-center">
-                      <span className="text-4xl" aria-hidden="true">❔</span>
+                      <IconQuestionMark
+                        size={40}
+                        stroke={1.7}
+                        aria-hidden="true"
+                        className="text-text-muted"
+                      />
                       <p className="font-heading text-lg font-bold text-secondary">
                         Produk tidak ditemukan
                       </p>
@@ -192,7 +198,12 @@ export default function HalamanBandingkan({ daftarProduk = [] }) {
             })}
             {terpilih.length === 1 && (
               <div className="flex flex-col items-center justify-center gap-2 rounded-[20px] border-2 border-dashed border-border bg-surface/50 p-8 text-center">
-                <span className="text-4xl" aria-hidden="true">➕</span>
+                <IconCirclePlus
+                  size={38}
+                  stroke={1.6}
+                  aria-hidden="true"
+                  className="text-primary/70"
+                />
                 <p className="font-heading text-lg font-bold text-secondary">
                   Pilih produk kedua
                 </p>

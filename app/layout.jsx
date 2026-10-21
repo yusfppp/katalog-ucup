@@ -1,4 +1,5 @@
 import "./globals.css";
+import ChromeSitus from "@/components/ChromeSitus";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PwaDaftar from "@/components/PwaDaftar";
@@ -53,9 +54,12 @@ export default async function RootLayout({ children }) {
       </head>
       <body className="flex min-h-screen flex-col bg-bg font-sans text-text antialiased selection:bg-primary-soft selection:text-primary">
         <KeranjangProvider>
-          <Header toko={toko} />
-          <main className="w-full flex-1">{children}</main>
-          <Footer toko={toko} />
+          <ChromeSitus
+            header={<Header toko={toko} />}
+            footer={<Footer toko={toko} />}
+          >
+            {children}
+          </ChromeSitus>
           <PwaDaftar />
         </KeranjangProvider>
       </body>

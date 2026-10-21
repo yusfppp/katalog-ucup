@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { IconArrowDown, IconArrowUp } from "@tabler/icons-react";
 import { formatRupiah } from "@/lib/format";
 import Button from "@/components/Button";
 import {
@@ -184,7 +185,7 @@ export default function TabelProduk({ daftarProduk = [] }) {
                           )
                         }
                       >
-                        ↑
+                        <IconArrowUp size={16} stroke={2.2} aria-hidden="true" />
                       </Button>
                       <Button
                         type="button"
@@ -201,7 +202,7 @@ export default function TabelProduk({ daftarProduk = [] }) {
                           )
                         }
                       >
-                        ↓
+                        <IconArrowDown size={16} stroke={2.2} aria-hidden="true" />
                       </Button>
                       <Button
                         type="button"
